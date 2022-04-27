@@ -13,7 +13,9 @@ import 'package:panic_button_app/providers/signup_form_provider.dart';
 import 'package:panic_button_app/screens/notification_screen.dart';
 import 'package:panic_button_app/screens/signup/signup_step_three.dart';
 import 'package:panic_button_app/screens/signup/signup_step_two_screen.dart';
+import 'package:panic_button_app/screens/users/administration_employees_screen.dart';
 import 'package:panic_button_app/screens/users/edit_user_profile_screen.dart';
+import 'package:panic_button_app/screens/users/register_user_employee_screen.dart';
 import 'package:panic_button_app/services/push_notifications_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -75,7 +77,7 @@ class AppState extends StatefulWidget {
   State<AppState> createState() => _AppStateState();
 }
 
-class _AppStateState extends State<AppState> with WidgetsBindingObserver{
+class _AppStateState extends State<AppState> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -109,24 +111,23 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver{
       },
     );
 
-    AwesomeNotifications().actionStream.listen(
-      (ReceivedNotification receivedNotification){
-          // Navigator.of(context).pushNamed(
-          //     '/NotificationPage',
-          //     arguments: {
-          //         // your page params. I recommend you to pass the
-          //         // entire *receivedNotification* object
-          //         id: receivedNotification.id
-          //     }
-          // );
-
-      }
-    );
+    AwesomeNotifications()
+        .actionStream
+        .listen((ReceivedNotification receivedNotification) {
+      // Navigator.of(context).pushNamed(
+      //     '/NotificationPage',
+      //     arguments: {
+      //         // your page params. I recommend you to pass the
+      //         // entire *receivedNotification* object
+      //         id: receivedNotification.id
+      //     }
+      // );
+    });
     PushNotificationService.messagesStream
         .listen((Map<String, dynamic> message) async {
-          print('abrio notificación desde main');
-    // FlutterAppBadger.updateBadgeCount(0);
-    // FlutterAppBadger.removeBadge();
+      print('abrio notificación desde main');
+      // FlutterAppBadger.updateBadgeCount(0);
+      // FlutterAppBadger.removeBadge();
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
           id: createUniqueId(),
@@ -137,7 +138,6 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver{
         ),
       );
     });
-
   }
 
   @override
@@ -145,9 +145,10 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver{
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if(state == AppLifecycleState.resumed){
+    if (state == AppLifecycleState.resumed) {
       FlutterAppBadger.updateBadgeCount(1);
       Timer.periodic(const Duration(seconds: 5), (timer) {
         FlutterAppBadger.removeBadge();
@@ -211,7 +212,10 @@ class MyApp extends StatelessWidget {
         'notification': (_) => NotificationScreen(),
 
         //Users Routes
-        'edit_user_profile': (_) => const EditUserProfileScreen()
+        'edit_user_profile': (_) => const EditUserProfileScreen(),
+        'register_user_employee_screen': (_) => const RegisterEmployeeScreen(),
+        'administration_employees_screen': (_) =>
+            const AdministrationEmployeeScreen()
       },
       theme: ThemeData.light().copyWith(
           scaffoldBackgroundColor: Colors.grey[300],

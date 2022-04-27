@@ -65,7 +65,21 @@ Widget _buildMenuItems(BuildContext context) {
           Navigator.pushNamedAndRemoveUntil(
               context, 'login', (Route route) => false);
         },
-      )
+      ),
+      /* ListTile(
+        leading: const Icon(Icons.logout),
+        title: Text('Registrar Trabajador'),
+        onTap: () {
+          Navigator.pushNamed(context, 'register_user_employee_screen');
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.logout),
+        title: Text('Administrar Trabajadores'),
+        onTap: () {
+          Navigator.pushNamed(context, 'administration_employees_screen');
+        },
+      ), */
     ],
   );
 }

@@ -33,7 +33,7 @@ abstract class TextConstants {
   static String myBusiness = 'Mi comercio';
   static String nameBusiness = 'Nombre del establecimiento';
   static String testAddress = 'CL 45D N 4 32';
-  static String address ='Dirección';
+  static String address = 'Dirección';
   static String additionalInformation = 'Información adiciónal';
   static String testCity = 'Queens';
   static String city = 'Ciudad';
@@ -43,39 +43,49 @@ abstract class TextConstants {
   static String email = 'Correo Electronico';
   static String congratulations = '¡Felicidades!';
   static String saveChanges = 'Guardar Cambios';
-  static String next ='Siguiente';
-  static String selectOption ='Elige una opción';
+  static String next = 'Siguiente';
+  static String register = 'Registrar';
+  static String selectOption = 'Elige una opción';
   static String gallery = 'Galería';
   static String camera = 'Camara';
-  static String select ='Seleccionar';
+  static String select = 'Seleccionar';
   static String uploadPhoto = 'Subir foto';
   static String skipForNow = 'Saltar por ahora';
   static String readyAccount = '¿Ya tienes una cuenta?';
-  static String existingAccount = 'Al parecer ya existe una cuenta con este numero, por favor inicia sesión';
-  static String profileSuccessfullyModified = 'Tu perfil ha sido modificado exitosamente';
+  static String existingAccount =
+      'Al parecer ya existe una cuenta con este numero, por favor inicia sesión';
+  static String profileSuccessfullyModified =
+      'Tu perfil ha sido modificado exitosamente';
   static String invalidNumber = 'Este número no es valido';
   static String saveError = 'Húbo un error al intentar guardar';
-  static String genericError = 'Algo no fue como lo esperabamos :(, por favor reporta con el administrador del sistema';
+  static String genericError =
+      'Algo no fue como lo esperabamos :(, por favor reporta con el administrador del sistema';
   static String newAccount = 'Crear una nueva cuenta';
   static String createAccount = 'Crear cuenta';
   static String completeRegister = '¡Registro Completo!';
   static String addProfileImage = '¿Desea agregar una foto de perfil?';
-  static String failValidateCode = 'No pudimos validar tu código, por favor intenta nuevamente';
+  static String failValidateCode =
+      'No pudimos validar tu código, por favor intenta nuevamente';
   static String alertTitleError = '¡Lo sentimos!';
   static String alertMessageError = 'El panico no pudo ser reportado';
   static String alertTitleSuccess = '¡Has enviado un panico!';
-  static String alertMessageSuccess = 'Se le ha reportado a todos los que se encuentran cerca del radio de tu compañía';
+  static String alertMessageSuccess =
+      'Se le ha reportado a todos los que se encuentran cerca del radio de tu compañía';
   static String notificationTitle = 'dice: ¡Estoy en pánico!';
   static String notificationBody = 'Hay un evento peligroso en curso';
   static String enableNotifications = 'Habilita las notificaciones';
   static String enabeGpsTitle = 'Habilitar GPS';
   static String invalidEmail = 'Email is not valid';
-  static String useMyLocation ='Usar mi ubicación';
-  static String enableGpsMessage = 'Por favor habilite el gps para poder usar la app';
+  static String useMyLocation = 'Usar mi ubicación';
+  static String enableGpsMessage =
+      'Por favor habilite el gps para poder usar la app';
   static String gpstitle = 'Activa tu ubicación';
-  static String gpsMessage = 'Panic Button necesita permiso para tú ubicación para brindarte sus servicios';
-  static String messageToEnableNotifications = 'Nuestra App funcióna gracias a la notificaciónes es IMPORTANTE activarlas';
+  static String gpsMessage =
+      'Panic Button necesita permiso para tú ubicación para brindarte sus servicios';
+  static String messageToEnableNotifications =
+      'Nuestra App funcióna gracias a la notificaciónes es IMPORTANTE activarlas';
   static String user = 'Usuario';
   static String administrator = 'Administrador';
   static String selectAdministrator = 'Eres administrador ?';
+  static String userAdministration = 'Administrador De Usuarios';
 }
