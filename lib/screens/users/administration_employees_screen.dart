@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'package:panic_button_app/constants/texts.dart';
 
@@ -31,13 +32,34 @@ class _AdministrationEmployeeScreenState
         ],
       ),
       body: CardUsersContainer(),
-      floatingActionButton: FloatingActionButton.large(
-        onPressed: () {
-          // Add your onPressed code here!
-        },
-        backgroundColor: const Color.fromARGB(255, 177, 19, 16),
-        child: const Icon(Icons.account_circle, size: 95),
-      ),
+      floatingActionButton: BotonFlotante(),
+    );
+  }
+}
+
+class BotonFlotante extends StatelessWidget {
+  const BotonFlotante({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SpeedDial(
+      child: const Icon(Icons.account_circle, size: 50),
+      children: [
+        SpeedDialChild(
+          child: Icon(Icons.qr_code),
+          label: 'QR'
+        ),
+        SpeedDialChild(
+            child: Icon(Icons.person_add),
+            label: 'Registrar',
+          onTap: () {
+            Navigator.pushNamed(context, 'register_user_employee_screen');
+          },
+        )
+      ],
+      backgroundColor: const Color.fromARGB(255, 177, 19, 16),
     );
   }
 }
