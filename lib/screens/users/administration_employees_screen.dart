@@ -45,11 +45,14 @@ class BotonFlotante extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpeedDial(
-      child: const Icon(Icons.account_circle, size: 50),
+      child: const Icon(Icons.account_circle, size: 55),
       children: [
         SpeedDialChild(
           child: Icon(Icons.qr_code),
-          label: 'QR'
+          label: 'QR',
+          onTap: () {
+            Navigator.pushNamed(context, 'qr_code');
+          },
         ),
         SpeedDialChild(
             child: Icon(Icons.person_add),
