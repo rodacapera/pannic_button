@@ -88,4 +88,5 @@ abstract class TextConstants {
   static String administrator = 'Administrador';
   static String selectAdministrator = 'Eres administrador ?';
   static String userAdministration = 'Administrador De Usuarios';
+  static String userRegister = 'Registro De Usuarios';
 }

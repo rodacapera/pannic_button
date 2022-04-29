@@ -1,21 +1,10 @@
-import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart';
-import 'package:panic_button_app/blocs/location/location_bloc.dart';
-import 'package:panic_button_app/blocs/map/map_bloc.dart';
+
 import 'package:panic_button_app/constants/texts.dart';
-import 'package:panic_button_app/models/panic.dart';
-import 'package:panic_button_app/models/user.dart';
-import 'package:panic_button_app/services/auth_service.dart';
-import 'package:panic_button_app/services/notifications_service.dart';
-import 'package:panic_button_app/services/panic_service.dart';
-import 'package:panic_button_app/widgets/drawer_widget.dart';
-import 'package:provider/provider.dart';
+
+
+import '../../widgets/auth_background.dart';
+import '../../widgets/card_users_widget.dart';
 
 class AdministrationEmployeeScreen extends StatefulWidget {
   const AdministrationEmployeeScreen({Key? key}) : super(key: key);
@@ -41,6 +30,7 @@ class _AdministrationEmployeeScreenState
               icon: const Icon(Icons.notifications))
         ],
       ),
+      body: CardUsersContainer(),
       floatingActionButton: FloatingActionButton.large(
         onPressed: () {
           // Add your onPressed code here!

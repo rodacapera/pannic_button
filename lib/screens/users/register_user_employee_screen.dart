@@ -21,15 +21,26 @@ class RegisterEmployeeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: Center(child: Text(TextConstants.userRegister)),
+          backgroundColor: const Color.fromARGB(255, 177, 19, 16),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, 'notification');
+                },
+                icon: const Icon(Icons.notifications))
+          ],
+        ),
         body: AuthBackground(
             child: SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 250),
+          const SizedBox(height: 215),
           CardContainer(
               child: Column(
             children: [
-              const SizedBox(height: 10),
+              //const SizedBox(height: 5),
               Text(TextConstants.createAccount,
                   style: Theme.of(context).textTheme.headline4),
               const SizedBox(height: 30),

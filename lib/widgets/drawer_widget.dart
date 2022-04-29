@@ -58,6 +58,20 @@ Widget _buildMenuItems(BuildContext context) {
         },
       ),
       ListTile(
+        leading: const Icon(Icons.person_add),
+        title: Text('Registrar Usuario'),
+        onTap: () {
+          Navigator.pushNamed(context, 'register_user_employee_screen');
+        },
+      ),
+      ListTile(
+        leading: const Icon(Icons.person_search),
+        title: Text('Administrar Uusarios'),
+        onTap: () {
+          Navigator.pushNamed(context, 'administration_employees_screen');
+        },
+      ),
+      ListTile(
         leading: const Icon(Icons.logout),
         title: Text(TextConstants.logout),
         onTap: () async {
@@ -66,20 +80,7 @@ Widget _buildMenuItems(BuildContext context) {
               context, 'login', (Route route) => false);
         },
       ),
-      /* ListTile(
-        leading: const Icon(Icons.logout),
-        title: Text('Registrar Trabajador'),
-        onTap: () {
-          Navigator.pushNamed(context, 'register_user_employee_screen');
-        },
-      ),
-      ListTile(
-        leading: const Icon(Icons.logout),
-        title: Text('Administrar Trabajadores'),
-        onTap: () {
-          Navigator.pushNamed(context, 'administration_employees_screen');
-        },
-      ), */
+      /*  */
     ],
   );
 }
