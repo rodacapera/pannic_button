@@ -58,7 +58,14 @@ class _QRScanPageState extends State<QRScanPage> {
 
     setState(() {
       this.qrCode = qrCode;
-      Navigator.pushNamed(context, qrCode);
+
+      var parts = qrCode.split('/');
+      var link = parts[0].trim();                 // prefix: "date"
+      var idUser = parts.sublist(1).join('/').trim();
+
+      print("ID DEL USUARIO INICIAL = "+ idUser);
+
+      Navigator.pushNamed(context, link);
     });
   }
 }

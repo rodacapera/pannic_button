@@ -21,7 +21,7 @@ class _QRCodeState extends State<QRCode> with SingleTickerProviderStateMixin {
     final authService = Provider.of<AuthService>(context);
 
     //data = authService.userLogged.user_uid!;
-    data =  'register_user_employee_screen';
+    data =  'register_user_employee_screen' "/"+authService.userLogged.user_uid!;
     return Scaffold(
         appBar: AppBar(
           title: Text("Codigo QR"),
