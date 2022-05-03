@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 import '../constants/texts.dart';
@@ -36,16 +37,28 @@ class _QRScanPageState extends State<QRScanPage> {
             icon: Icon(Icons.camera_alt),
             label: Text('Scan'),
             onPressed: scanQRCode,
-          )
+          ),
+          SizedBox(height: 20,),
+          Text(qrCode == null ? 'Scan a code': 'Scan result : $qrCode',
+          style: TextStyle(fontSize: 18 ),)
         ],
       ),
     ),
   );
 
   Future scanQRCode() async {
-    var result = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", true, ScanMode.QR);
+
+    try{
+      qrCode = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", true, ScanMode.QR);
+    } on PlatformException {
+      qrCode = "Fallo en la lectura del codigo Qr";
+    }
+
+    if(!mounted ) return;
+
     setState(() {
-      qrCode = result as String;
+      this.qrCode = qrCode;
+      Navigator.pushNamed(context, qrCode);
     });
   }
 }
