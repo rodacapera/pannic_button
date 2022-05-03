@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+
+import '../../services/auth_service.dart';
 
 class QRCode extends StatefulWidget {
   const QRCode({Key? key}) : super(key: key);
@@ -11,10 +14,13 @@ class QRCode extends StatefulWidget {
 
 class _QRCodeState extends State<QRCode> with SingleTickerProviderStateMixin {
 
-  final String data = "prueba";
+  String data = "";
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+
+    data = authService.userLogged.user_uid!;
     return Scaffold(
         appBar: AppBar(
           title: Text("Codigo QR"),

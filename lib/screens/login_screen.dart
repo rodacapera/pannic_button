@@ -1,6 +1,7 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:panic_button_app/blocs/location/location_bloc.dart';
@@ -161,7 +162,20 @@ class _LoginForm extends StatelessWidget {
 
                           loginForm.isLoading = false;
                         }
-                      })
+                      }),
+        SpeedDial(
+    child: const Icon(Icons.account_circle, size: 55),
+    children: [
+    SpeedDialChild(
+    child: Icon(Icons.qr_code),
+    label: 'QR',
+    onTap: () {
+    Navigator.pushNamed(context, 'qr_scan');
+    },
+    ),
+    ],
+    backgroundColor: const Color.fromARGB(255, 177, 19, 16),
+        )
           ],
         ),
       ),

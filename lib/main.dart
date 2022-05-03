@@ -18,6 +18,7 @@ import 'package:panic_button_app/screens/users/edit_user_profile_screen.dart';
 import 'package:panic_button_app/screens/users/qr_code.dart';
 import 'package:panic_button_app/screens/users/register_user_employee_screen.dart';
 import 'package:panic_button_app/services/push_notifications_service.dart';
+import 'package:panic_button_app/widgets/qr_scan.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -214,6 +215,7 @@ class MyApp extends StatelessWidget {
 
         //Users Routes
         'edit_user_profile': (_) => const EditUserProfileScreen(),
+        'qr_scan': (_) =>  QRScanPage(),
         'qr_code': (_) => const QRCode(),
         'register_user_employee_screen': (_) => const RegisterEmployeeScreen(),
         'administration_employees_screen': (_) =>
