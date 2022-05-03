@@ -77,8 +77,7 @@ class _SignUpStepThreeFormState extends State<_SignUpStepThreeForm> {
     final ImagePicker _picker = ImagePicker();
 
     void _openGallery(BuildContext context) async {
-      XFile? pickedFile =
-          await _picker.pickImage(source: ImageSource.gallery);
+      XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
       setState(() {
         imageFile = pickedFile!;
       });
@@ -155,11 +154,15 @@ class _SignUpStepThreeFormState extends State<_SignUpStepThreeForm> {
               elevation: 0,
               color: Colors.green,
               child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   child: Text(
-                    signUpForm.isLoading ? TextConstants.await : TextConstants.select,
+                    signUpForm.isLoading
+                        ? TextConstants.await
+                        : TextConstants.select,
                     style: const TextStyle(color: Colors.white),
                   )),
+                  
               onPressed: () async {
                 await _showChoiceDialog(context);
               }),
@@ -181,10 +184,12 @@ class _SignUpStepThreeFormState extends State<_SignUpStepThreeForm> {
                   elevation: 0,
                   color: const Color.fromARGB(255, 177, 19, 16),
                   child: Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 15),
                       child: Text(
-                        signUpForm.isLoading ? TextConstants.await : TextConstants.uploadPhoto,
+                        signUpForm.isLoading
+                            ? TextConstants.await
+                            : TextConstants.uploadPhoto,
                         style: const TextStyle(color: Colors.white),
                       )),
                   onPressed: !signUpForm.isLoading
@@ -192,10 +197,10 @@ class _SignUpStepThreeFormState extends State<_SignUpStepThreeForm> {
                           signUpForm.isLoading = true;
                           await authService.uploadImageToFirebase(
                               context, File(imageFile!.path));
-                          await authService.updateProfilePicture(authService.imagePath);
+                          await authService
+                              .updateProfilePicture(authService.imagePath);
                           signUpForm.isLoading = false;
-                          authService.userLogged.avatar =
-                              authService.imagePath;
+                          authService.userLogged.avatar = authService.imagePath;
                           Navigator.popAndPushNamed(context, 'home');
                         }
                       : null)

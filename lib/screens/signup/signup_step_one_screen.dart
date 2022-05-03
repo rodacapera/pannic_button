@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cool_alert/cool_alert.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
@@ -9,6 +10,8 @@ import 'package:panic_button_app/constants/texts.dart';
 import 'package:panic_button_app/helpers/validators.dart';
 import 'package:panic_button_app/providers/signup_form_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:panic_button_app/services/firebase_dynamic_link.dart';
+
 
 import 'package:panic_button_app/services/services.dart';
 
@@ -154,7 +157,33 @@ class _SignUpStepOneForm extends StatelessWidget {
                         signUpForm.countryCode =
                             address.first.isoCountryCode!;
                         signUpForm.zipCode = address.first.postalCode ?? '';
+
+                        String _linkMessage;
+
+                        /*final authService = Provider.of<AuthService>(context);*/
+
+                        final DynamicLinkParameters dynamicLinkParams = DynamicLinkParameters(
+                          link: Uri.parse("https://bodegalert.com/"),
+                          uriPrefix: "https://bodegalert.page.link",
+                          androidParameters:
+                          const AndroidParameters(packageName: "io.cordova.alarmu"),
+                          iosParameters: const IOSParameters(bundleId: "io.cordova.alarmu"),
+                        );
+
+                        final dynamicLink =
+                        await FirebaseDynamicLinks.instance.buildLink(dynamicLinkParams);
+
+                        _linkMessage = dynamicLink.toString();
+
+                        CoolAlert.show(
+                            context: context,
+                            type: CoolAlertType.success,
+                            title: "Exito",
+                            text: "$_linkMessage",
+                            loopAnimation: false);
+
                         Navigator.pushNamed(context, 'signup_step_two');
+
                       } catch (e) {
                         CoolAlert.show(
                           context: context,
