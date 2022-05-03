@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/texts.dart';
+import '../services/auth_service.dart';
 
 class QRScanPage extends StatefulWidget {
   @override
@@ -14,7 +16,7 @@ class _QRScanPageState extends State<QRScanPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
+  appBar: AppBar(
       title: Center(child: Text(TextConstants.QRScanner)),
       backgroundColor: const Color.fromARGB(255, 177, 19, 16),
       actions: [
@@ -48,6 +50,8 @@ class _QRScanPageState extends State<QRScanPage> {
 
   Future scanQRCode() async {
 
+    final authService = Provider.of<AuthService>(context, listen: false);
+
     try{
       qrCode = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", true, ScanMode.QR);
     } on PlatformException {
@@ -58,7 +62,16 @@ class _QRScanPageState extends State<QRScanPage> {
 
     setState(() {
       this.qrCode = qrCode;
-      Navigator.pushNamed(context, qrCode);
+
+      var parts = qrCode.split('/');
+      var link = parts[0].trim();                 // prefix: "date"
+      var idUser = parts.sublist(1).join('/').trim();
+
+      print("ID DEL USUARIO INICIAL = "+ idUser);
+
+      authService.insertEmployee(idUser, "545", "jorge", "asdasd");
+
+      Navigator.pushNamed(context, link);
     });
   }
 }

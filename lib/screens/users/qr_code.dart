@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:panic_button_app/services/firebase_dynamic_link.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -14,33 +13,33 @@ class QRCode extends StatefulWidget {
 }
 
 class _QRCodeState extends State<QRCode> with SingleTickerProviderStateMixin {
+
   String data = "";
 
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
-    //authService.userLogged.user_uid!
 
     //data = authService.userLogged.user_uid!;
-    data = 'register_user_employee_screen';
+    data =  'register_user_employee_screen/'+authService.userLogged.user_uid!;
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Codigo QR"),
-        backgroundColor: const Color.fromARGB(255, 177, 19, 16),
-      ),
+        appBar: AppBar(
+          title: Text("Codigo QR"),
+          backgroundColor: const Color.fromARGB(255, 177, 19, 16),
+        ),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text("Codigo generado con el texto: \n $data",
-                textAlign: TextAlign.center, style: TextStyle(fontSize: 24)),
-            SizedBox(
-              height: 20,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 24
+              )
             ),
-            QrImage(
-              data: data,
-              size: 300,
-            )
+            SizedBox(height: 20,),
+            QrImage(data: data,
+            size: 300,)
           ],
         ),
       ),

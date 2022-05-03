@@ -25,6 +25,7 @@ class User {
     required this.location,
     this.zipCode, 
     required this.administrator,
+    required this.employees
   });
 
   String? user_uid;
@@ -42,6 +43,7 @@ class User {
   Map<String, dynamic> location;
   int? zipCode;
   bool administrator;
+  List<dynamic> employees;
 
   User copyWith({
     String? user_uid,
@@ -75,7 +77,8 @@ class User {
         lastname: lastname,
         location: location,
         zipCode: zipCode ?? this.zipCode,
-        administrator: administrator
+        administrator: administrator,
+        employees: employees
       );
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -96,7 +99,8 @@ class User {
           "lat": json["location"]["lat"]
         },
         zipCode: json["zipcode"],
-        administrator: json['administrator']
+        administrator: json['administrator'],
+        employees: List<dynamic>.from(json["employees"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -114,6 +118,7 @@ class User {
         "lastname": lastname,
         "location": {"lat": location["lat"], "lng": location["lng"]},
         "zipcode": zipCode,
-        "administrator": administrator
+        "administrator": administrator,
+        "employees": List<dynamic>.from(employees.map((x) => x)),
       };
 }

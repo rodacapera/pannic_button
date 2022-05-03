@@ -235,7 +235,9 @@ class _SignUpStepTwoForm extends StatelessWidget {
                         name: signUpForm.name,
                         lastname: signUpForm.lastName,
                         zipCode: int.tryParse(signUpForm.zipCode),
-                        location: signUpForm.location);
+                        location: signUpForm.location,
+                        employees: []);
+
 
                     await authService.signUp(user);
                     Navigator.pushNamed(context, 'checkOtp', arguments: user);

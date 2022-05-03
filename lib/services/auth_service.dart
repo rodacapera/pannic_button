@@ -24,6 +24,8 @@ class AuthService extends ChangeNotifier {
   bool get isLogging => _isLogging;
   String _imagePath = '';
   bool _isRegistered = false;
+  List<dynamic> employees = [];
+
 
   bool get isRegistered => _isRegistered;
 
@@ -258,7 +260,7 @@ class AuthService extends ChangeNotifier {
     await _firestore
         .collection('users')
         .doc(_auth.currentUser!.uid)
-        .update({"avatar": imagePath}).then((result) {});
+        .set({"avatar": imagePath}).then((result) {});
   }
 
   Future verifyIsRegistered(phoneNumber) async {
@@ -292,5 +294,39 @@ class AuthService extends ChangeNotifier {
           success = false;
         });
     return success;
+  }
+
+  Future<bool> insertEmployee(idUser, phone, name, lastname) async {
+    bool success = false;
+    List<dynamic> employees = await obtainEmployees(idUser);
+    await _firestore
+        .collection('users')
+        .doc(idUser)
+        .update({
+      "employees": [
+        ...employees,
+        {
+          "phone": phone,
+          "name": name,
+          "lastname": lastname,
+        }
+      ]
+    })
+        .then((value) => {success = true})
+        .catchError((onError) {
+      success = false;
+    });
+    return success;
+  }
+
+  Future<List<dynamic>> obtainEmployees(idUser) async {
+    await _firestore
+        .collection('users')
+        .doc(idUser)
+        .get()
+        .then((value) => {
+      userLogged = pb.User.fromJson(value.data()!),
+    });
+    return userLogged.employees;
   }
 }
