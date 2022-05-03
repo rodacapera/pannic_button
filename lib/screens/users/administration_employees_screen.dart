@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'package:panic_button_app/constants/texts.dart';
-
+import 'package:panic_button_app/services/firebase_dynamic_link.dart';
 
 import '../../widgets/auth_background.dart';
 import '../../widgets/card_users_widget.dart';
@@ -50,13 +50,13 @@ class BotonFlotante extends StatelessWidget {
         SpeedDialChild(
           child: Icon(Icons.qr_code),
           label: 'QR',
-          onTap: () {
+          onTap: () async {
             Navigator.pushNamed(context, 'qr_code');
           },
         ),
         SpeedDialChild(
-            child: Icon(Icons.person_add),
-            label: 'Registrar',
+          child: Icon(Icons.person_add),
+          label: 'Registrar',
           onTap: () {
             Navigator.pushNamed(context, 'register_user_employee_screen');
           },
