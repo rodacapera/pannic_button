@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:barcode_scan/barcode_scan.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+
+import '../constants/texts.dart';
 
 class QRScanPage extends StatefulWidget {
   @override
@@ -12,40 +15,50 @@ class _QRScanPageState extends State<QRScanPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: Text('hola'),
+      title: Center(child: Text(TextConstants.QRScanner)),
+      backgroundColor: const Color.fromARGB(255, 177, 19, 16),
+      actions: [
+        IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, 'notification');
+            },
+            icon: const Icon(Icons.notifications))
+      ],
     ),
     body: Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(
-            'Scan Result',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.white54,
-              fontWeight: FontWeight.bold,
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              primary: Color.fromARGB(255, 177, 19, 16),
+              onPrimary: Colors.white
             ),
+            icon: Icon(Icons.camera_alt),
+            label: Text('Scan'),
+            onPressed: scanQRCode,
           ),
-          SizedBox(height: 8),
-          Text(
-            '$qrCode',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-          SizedBox(height: 72),
-
+          SizedBox(height: 20,),
+          Text(qrCode == null ? 'Scan a code': 'Scan result : $qrCode',
+          style: TextStyle(fontSize: 18 ),)
         ],
       ),
     ),
   );
 
-  Future<void> scanQRCode() async {
-    var result = await BarcodeScanner.scan();
+  Future scanQRCode() async {
+
+    try{
+      qrCode = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", true, ScanMode.QR);
+    } on PlatformException {
+      qrCode = "Fallo en la lectura del codigo Qr";
+    }
+
+    if(!mounted ) return;
+
     setState(() {
-      qrCode = result as String;
+      this.qrCode = qrCode;
+      Navigator.pushNamed(context, qrCode);
     });
   }
 }
