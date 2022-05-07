@@ -15,11 +15,35 @@
       },
       "oauth_client": [
         {
+          "client_id": "923215387352-1ln8h8bommdh7ua69lenmd0ph69q6v2f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.cordova.alarmu",
+            "certificate_hash": "7190fad9f911164e7ad89fd4d298004aeaedb91f"
+          }
+        },
+        {
           "client_id": "923215387352-42re9ud06lt28flp1o8l4jgspf11vvi7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "io.cordova.alarmu",
             "certificate_hash": "1c6d9930907954c776b7c6e3519e4f43a926bec1"
+          }
+        },
+        {
+          "client_id": "923215387352-dbibl23ccqhbqp5a3sev8cpankauj3gl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.cordova.alarmu",
+            "certificate_hash": "99fadec2cc3f46f2df8154f352187e11267890de"
+          }
+        },
+        {
+          "client_id": "923215387352-qos0dlig39ibtvrmp8nacqab4cpsjrfe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.cordova.alarmu",
+            "certificate_hash": "f633abbad4cb43f6f84412a1fd2ad99532118b5d"
           }
         },
         {

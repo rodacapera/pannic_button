@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants/texts.dart';
 import '../services/auth_service.dart';
@@ -51,6 +54,7 @@ class _QRScanPageState extends State<QRScanPage> {
   Future scanQRCode() async {
 
     final authService = Provider.of<AuthService>(context, listen: false);
+    final _prefs = await SharedPreferences.getInstance();
 
     try{
       qrCode = await FlutterBarcodeScanner.scanBarcode("#ff6666", "Cancel", true, ScanMode.QR);
@@ -67,11 +71,11 @@ class _QRScanPageState extends State<QRScanPage> {
       var link = parts[0].trim();                 // prefix: "date"
       var idUser = parts.sublist(1).join('/').trim();
 
+      //_prefs.setString("idUser", json.encode(idUser));
+
       print("ID DEL USUARIO INICIAL = "+ idUser);
 
-      authService.insertEmployee(idUser, "545", "jorge", "asdasd");
-
-      Navigator.pushNamed(context, link);
+      Navigator.pushNamed(context, link, arguments: idUser);
     });
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:panic_button_app/constants/texts.dart';
@@ -10,6 +11,7 @@ import 'package:panic_button_app/services/services.dart';
 
 import 'package:panic_button_app/ui/input_decorations.dart';
 import 'package:panic_button_app/widgets/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterEmployeeScreen extends StatelessWidget {
   const RegisterEmployeeScreen({Key? key}) : super(key: key);
@@ -57,6 +59,7 @@ class RegisterEmployeeScreen extends StatelessWidget {
 class _SignUpStepOneForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final idUser = ModalRoute.of(context)!.settings.arguments;
     final signUpForm = Provider.of<SignUpFormProvider>(context);
     final authService = Provider.of<AuthService>(context);
 
@@ -121,7 +124,11 @@ class _SignUpStepOneForm extends StatelessWidget {
                       : TextConstants.register,
                   style: const TextStyle(color: Colors.white),
                 )),
-            onPressed: () {},
+            onPressed: () async {
+
+              print(idUser);
+              authService.insertEmployee(idUser, signUpForm.phone, signUpForm.name, signUpForm.lastName);
+            },
           )
         ],
       ),

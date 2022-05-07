@@ -298,7 +298,7 @@ class AuthService extends ChangeNotifier {
 
   Future<bool> insertEmployee(idUser, phone, name, lastname) async {
     bool success = false;
-    List<dynamic> employees = await obtainEmployees(idUser);
+    //List<dynamic> employees = await obtainEmployees(idUser);
     await _firestore
         .collection('users')
         .doc(idUser)
@@ -320,13 +320,18 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<List<dynamic>> obtainEmployees(idUser) async {
+
+    late pb.User user;
+
     await _firestore
         .collection('users')
         .doc(idUser)
         .get()
         .then((value) => {
-      userLogged = pb.User.fromJson(value.data()!),
+        user = pb.User.fromJson(value.data()!),
+    }).catchError((onError) {
+      print(onError);
     });
-    return userLogged.employees;
+    return user.employees;
   }
 }
