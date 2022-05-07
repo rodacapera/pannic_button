@@ -19,6 +19,7 @@ class SignUpFormProvider extends ChangeNotifier {
   String name = '';
   String lastName = '';
   List<Device> devices = [];
+  dynamic shop;
 
   Map<String, dynamic> location = {};
   String zipCode = '';

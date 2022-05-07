@@ -24,7 +24,6 @@ class AuthService extends ChangeNotifier {
   bool get isLogging => _isLogging;
   String _imagePath = '';
   bool _isRegistered = false;
-  List<dynamic> employees = [];
 
 
   bool get isRegistered => _isRegistered;
@@ -298,13 +297,12 @@ class AuthService extends ChangeNotifier {
 
   Future<bool> insertEmployee(idUser, phone, name, lastname) async {
     bool success = false;
-    //List<dynamic> employees = await obtainEmployees(idUser);
     await _firestore
         .collection('users')
         .doc(idUser)
         .update({
       "employees": [
-        ...employees,
+        //...employees,
         {
           "phone": phone,
           "name": name,
@@ -317,21 +315,5 @@ class AuthService extends ChangeNotifier {
       success = false;
     });
     return success;
-  }
-
-  Future<List<dynamic>> obtainEmployees(idUser) async {
-
-    late pb.User user;
-
-    await _firestore
-        .collection('users')
-        .doc(idUser)
-        .get()
-        .then((value) => {
-        user = pb.User.fromJson(value.data()!),
-    }).catchError((onError) {
-      print(onError);
-    });
-    return user.employees;
   }
 }

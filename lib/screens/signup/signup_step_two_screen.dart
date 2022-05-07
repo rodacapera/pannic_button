@@ -168,6 +168,7 @@ class _SignUpStepTwoForm extends StatelessWidget {
           const SizedBox(height: 10),
           TextFormField(
               autocorrect: false,
+              initialValue: signUpForm.alias!,
               keyboardType: TextInputType.emailAddress,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecorations.authInputDecoration(
@@ -236,7 +237,8 @@ class _SignUpStepTwoForm extends StatelessWidget {
                         lastname: signUpForm.lastName,
                         zipCode: int.tryParse(signUpForm.zipCode),
                         location: signUpForm.location,
-                        employees: []);
+                        shop: signUpForm.shop
+                        );
 
 
                     await authService.signUp(user);

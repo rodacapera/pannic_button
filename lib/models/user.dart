@@ -9,6 +9,7 @@ User userFromJson(String str) => User.fromJson(json.decode(str));
 String userToJson(User data) => json.encode(data.toJson());
 
 class User {
+
   User({
     this.user_uid,
     required this.phone,
@@ -25,7 +26,7 @@ class User {
     required this.location,
     this.zipCode, 
     required this.administrator,
-    required this.employees
+    required this.shop
   });
 
   String? user_uid;
@@ -43,7 +44,7 @@ class User {
   Map<String, dynamic> location;
   int? zipCode;
   bool administrator;
-  List<dynamic> employees;
+  dynamic shop;
 
   User copyWith({
     String? user_uid,
@@ -60,7 +61,9 @@ class User {
     required String lastname,
     required Map<String, dynamic> location,
     int? zipCode,
-    required bool administrator
+    required bool administrator,
+    required dynamic shop
+
   }) =>
       User(
         user_uid: user_uid ?? this.user_uid,
@@ -78,7 +81,7 @@ class User {
         location: location,
         zipCode: zipCode ?? this.zipCode,
         administrator: administrator,
-        employees: employees
+        shop: shop
       );
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -100,7 +103,7 @@ class User {
         },
         zipCode: json["zipcode"],
         administrator: json['administrator'],
-        employees: List<dynamic>.from(json["employees"].map((x) => x)),
+        shop: json["shop"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -119,6 +122,6 @@ class User {
         "location": {"lat": location["lat"], "lng": location["lng"]},
         "zipcode": zipCode,
         "administrator": administrator,
-        "employees": List<dynamic>.from(employees.map((x) => x)),
+        "shop": shop.toString()
       };
 }
