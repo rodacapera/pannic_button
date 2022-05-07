@@ -61,7 +61,6 @@ class _SignUpStepOneForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final idUser = ModalRoute.of(context)!.settings.arguments;
     final signUpForm = Provider.of<SignUpFormProvider>(context);
-    final authService = Provider.of<AuthService>(context);
 
     return Form(
       key: signUpForm.formKeyOne,
@@ -127,7 +126,7 @@ class _SignUpStepOneForm extends StatelessWidget {
             onPressed: () async {
 
               print(idUser);
-              authService.insertEmployee(idUser, signUpForm.phone, signUpForm.name, signUpForm.lastName);
+              //authService.insertEmployee(idUser, signUpForm.phone, signUpForm.name, signUpForm.lastName);
             },
           )
         ],

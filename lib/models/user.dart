@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 User userFromJson(String str) => User.fromJson(json.decode(str));
 
 String userToJson(User data) => json.encode(data.toJson());
@@ -44,7 +46,7 @@ class User {
   Map<String, dynamic> location;
   int? zipCode;
   bool administrator;
-  dynamic shop;
+  DocumentReference shop;
 
   User copyWith({
     String? user_uid,
@@ -62,7 +64,7 @@ class User {
     required Map<String, dynamic> location,
     int? zipCode,
     required bool administrator,
-    required dynamic shop
+    required DocumentReference shop
 
   }) =>
       User(
@@ -122,6 +124,6 @@ class User {
         "location": {"lat": location["lat"], "lng": location["lng"]},
         "zipcode": zipCode,
         "administrator": administrator,
-        "shop": shop.toString()
+        "shop": shop
       };
 }

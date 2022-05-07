@@ -294,7 +294,7 @@ class AuthService extends ChangeNotifier {
         });
     return success;
   }
-
+/*
   Future<bool> insertEmployee(idUser, phone, name, lastname) async {
     bool success = false;
     await _firestore
@@ -315,5 +315,18 @@ class AuthService extends ChangeNotifier {
       success = false;
     });
     return success;
+  }
+ */
+
+   Future<DocumentReference<Object?>> obtainReferenceShop(idUser) async {
+    late pb.User userTemp;
+    await _firestore
+        .collection('users')
+        .doc(idUser)
+        .get()
+        .then((value) => {
+          userTemp = pb.User.fromJson(value.data()!),
+    });
+    return userTemp.shop;
   }
 }

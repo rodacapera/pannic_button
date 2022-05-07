@@ -1,5 +1,6 @@
 /* import 'dart:ffi'; */
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:panic_button_app/models/device.dart';
 
@@ -19,7 +20,7 @@ class SignUpFormProvider extends ChangeNotifier {
   String name = '';
   String lastName = '';
   List<Device> devices = [];
-  dynamic shop;
+  late DocumentReference shop;
 
   Map<String, dynamic> location = {};
   String zipCode = '';

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -61,18 +62,17 @@ class _QRScanPageState extends State<QRScanPage> {
                   var parts = qrCode.split('/');
                   var link = parts[0].trim(); // prefix: "date"
                   var alias = parts[1];
-                  final pos = parts[3].length - 1;
-                  final result = parts[3].substring(0, pos);
 
-                  var shop = result;
+                  var idShop = parts[2] + '/'+ parts[3];
 
-                  signUpForm.shop = shop;
+                  signUpForm.shop = FirebaseFirestore.instance.doc(idShop);
+
                   signUpForm.alias = alias;
 
                   //_prefs.setString("idUser", json.encode(idUser));
 
                   print("ID DEL DOCUMENTO DE LA SHOP = " + alias);
-                  print("ID DEL DOCUMENTO DE LA SHOP = " + shop);
+                  print("ID DEL DOCUMENTO DE LA SHOP = " + idShop);
 
 
                   Navigator.pushNamed(context, link);

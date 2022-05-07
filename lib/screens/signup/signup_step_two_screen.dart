@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:panic_button_app/constants/texts.dart';
 import 'package:panic_button_app/helpers/validators.dart';
@@ -168,7 +169,7 @@ class _SignUpStepTwoForm extends StatelessWidget {
           const SizedBox(height: 10),
           TextFormField(
               autocorrect: false,
-              initialValue: signUpForm.alias!,
+              initialValue: signUpForm.alias,
               keyboardType: TextInputType.emailAddress,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecorations.authInputDecoration(
@@ -215,7 +216,6 @@ class _SignUpStepTwoForm extends StatelessWidget {
                       )),
                   onPressed: () async {
                     if (!signUpForm.isValidStepTwoForm()) return;
-
                     final user = User(
                         administrator: signUpForm.administrator,
                         phone: signUpForm.phone,
