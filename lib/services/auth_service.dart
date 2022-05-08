@@ -11,6 +11,8 @@ import 'package:panic_button_app/models/user.dart' as pb;
 import 'package:panic_button_app/services/push_notifications_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/shop.dart';
+
 class AuthService extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -21,10 +23,10 @@ class AuthService extends ChangeNotifier {
   bool _isReady = false;
   bool _isValidatingOTP = false;
   bool _isLogging = false;
+
   bool get isLogging => _isLogging;
   String _imagePath = '';
   bool _isRegistered = false;
-
 
   bool get isRegistered => _isRegistered;
 
@@ -46,6 +48,14 @@ class AuthService extends ChangeNotifier {
 
   Map<String, dynamic> dataFromUsers = {};
   late pb.User _userLogged;
+  late Shop _shop;
+
+  Shop get shop => _shop;
+
+  set shop(Shop shop) {
+    _shop = shop;
+    notifyListeners();
+  }
 
   pb.User get userLogged => _userLogged;
 
@@ -102,74 +112,81 @@ class AuthService extends ChangeNotifier {
     try {
       await _auth
           .signInWithCredential(PhoneAuthProvider.credential(
-              verificationId: verificationCode, smsCode: otpCode))
-          .then((user) async => {
-                if (user != null)
-                  {
-                    if (userData != null)
-                      {
-                        userData.user_uid = _auth.currentUser!.uid,
-                        await _firestore
-                            .collection('users')
-                            .doc(_auth.currentUser!.uid)
-                            .set(userData.toJson(), SetOptions(merge: true))
-                            .then((value) =>
-                                {userLogged = userData, isLogging = false})
-                            .catchError((onError) => {
-                                  errorMessage = errorMessage.toString(),
-                                  debugPrint('Error saving user to db.' +
-                                      onError.toString())
-                                })
-                      }
-                    else
-                      {
-                        await _firestore
-                            .collection('users')
-                            .doc(_auth.currentUser!.uid)
-                            .get()
-                            .then((value) => {
-                                  userLogged = pb.User.fromJson(value.data()!),
-                                  _prefs.setString("userLogged",
-                                      json.encode(userLogged.toJson())),
-                                  isValidOTP = true,
-                                  isLogging = true
-                                })
-                            .catchError((onError) => {
-                                  errorMessage = errorMessage.toString(),
-                                  debugPrint('Error saving user to db.' +
-                                      onError.toString()),
-                                  isValidOTP = false
-                                }),
-                        //CHECK IF THE DEVICE IS ALREADY REGISTERED
-                        userLogged.devices
-                                .where((device) =>
-                                    device["device"] ==
-                                    PushNotificationService.token)
-                                .toList()
-                                .isEmpty
-                            ? await _firestore
-                                .collection('users')
-                                .doc(_auth.currentUser!.uid)
-                                .update({
-                                "devices": [
-                                  ...userLogged.devices,
-                                  {
-                                    "device": PushNotificationService.token,
-                                    "os":
-                                        Platform.isAndroid ? "android" : "ios",
-                                    "created":
-                                        DateTime.now().millisecondsSinceEpoch
-                                  }
-                                ]
-                              }).catchError((onError) => {
-                                      errorMessage = errorMessage.toString(),
-                                      debugPrint('Error saving user to db.' +
-                                          onError.toString())
-                                    })
-                            : null
-                      }
-                  }
-              })
+          verificationId: verificationCode, smsCode: otpCode))
+          .then((user) async =>
+      {
+        if (user != null)
+          {
+            if (userData != null)
+              {
+                userData.user_uid = _auth.currentUser!.uid,
+                await _firestore
+                    .collection('users')
+                    .doc(_auth.currentUser!.uid)
+                    .set(userData.toJson(), SetOptions(merge: true))
+                    .then((value) =>
+                {userLogged = userData, isLogging = false})
+                    .catchError((onError) =>
+                {
+                  errorMessage = errorMessage.toString(),
+                  debugPrint('Error saving user to db.' +
+                      onError.toString())
+                })
+              }
+            else
+              {
+                await _firestore
+                    .collection('users')
+                    .doc(_auth.currentUser!.uid)
+                    .get()
+                    .then((value) =>
+                {
+                  userLogged = pb.User.fromJson(value.data()!),
+                  _prefs.setString("userLogged",
+                      json.encode(userLogged.toJson())),
+                  isValidOTP = true,
+                  isLogging = true
+                })
+                    .catchError((onError) =>
+                {
+                  errorMessage = errorMessage.toString(),
+                  debugPrint('Error saving user to db.' +
+                      onError.toString()),
+                  isValidOTP = false
+                }),
+                //CHECK IF THE DEVICE IS ALREADY REGISTERED
+                userLogged.devices
+                    .where((device) =>
+                device["device"] ==
+                    PushNotificationService.token)
+                    .toList()
+                    .isEmpty
+                    ? await _firestore
+                    .collection('users')
+                    .doc(_auth.currentUser!.uid)
+                    .update({
+                  "devices": [
+                    ...userLogged.devices,
+                    {
+                      "device": PushNotificationService.token,
+                      "os":
+                      Platform.isAndroid ? "android" : "ios",
+                      "created":
+                      DateTime
+                          .now()
+                          .millisecondsSinceEpoch
+                    }
+                  ]
+                }).catchError((onError) =>
+                {
+                  errorMessage = errorMessage.toString(),
+                  debugPrint('Error saving user to db.' +
+                      onError.toString())
+                })
+                    : null
+              }
+          }
+      })
           .catchError(
               (onError) => {print('error ${onError}'), isValidOTP = false});
       isValidOTP = true;
@@ -186,10 +203,10 @@ class AuthService extends ChangeNotifier {
         .where('phone', isEqualTo: phoneNumber)
         .get()
         .then((result) {
-          if (result.docs.length > 0) {
-            isValidUser = true;
-          }
-        });
+      if (result.docs.length > 0) {
+        isValidUser = true;
+      }
+    });
 
     if (isValidUser) {
       //ok, we have a valid user, now lets do otp verification
@@ -250,9 +267,7 @@ class AuthService extends ChangeNotifier {
     Reference ref = _storage.ref().child('uploads/avatars/$fileName');
     UploadTask uploadTask = ref.putFile(imageFile);
     TaskSnapshot taskSnapshot = await uploadTask;
-    await taskSnapshot.ref.getDownloadURL().then(
-          (value) =>  imagePath = value
-        );
+    await taskSnapshot.ref.getDownloadURL().then((value) => imagePath = value);
   }
 
   Future updateProfilePicture(String imagePath) async {
@@ -282,33 +297,11 @@ class AuthService extends ChangeNotifier {
         .collection('users')
         .doc(_auth.currentUser!.uid)
         .update({
-          "email": email,
-          "alias": alias,
-          "address": address,
-          "name": name,
-          "lastname": lastname,
-        })
-        .then((value) => {success = true})
-        .catchError((onError) {
-          success = false;
-        });
-    return success;
-  }
-/*
-  Future<bool> insertEmployee(idUser, phone, name, lastname) async {
-    bool success = false;
-    await _firestore
-        .collection('users')
-        .doc(idUser)
-        .update({
-      "employees": [
-        //...employees,
-        {
-          "phone": phone,
-          "name": name,
-          "lastname": lastname,
-        }
-      ]
+      "email": email,
+      "alias": alias,
+      "address": address,
+      "name": name,
+      "lastname": lastname,
     })
         .then((value) => {success = true})
         .catchError((onError) {
@@ -316,17 +309,26 @@ class AuthService extends ChangeNotifier {
     });
     return success;
   }
- */
 
-   Future<DocumentReference<Object?>> obtainReferenceShop(idUser) async {
-    late pb.User userTemp;
+  Future<DocumentReference> insertShop(Shop shop) async {
+    String idShop = "";
     await _firestore
-        .collection('users')
-        .doc(idUser)
-        .get()
-        .then((value) => {
-          userTemp = pb.User.fromJson(value.data()!),
+          .collection('shops')
+          .doc()
+          .set(shop.toJson(), SetOptions(merge: true));
+
+
+    var docRef =  await _firestore
+        .collection('shops')
+        .where('alias', isEqualTo: shop.alias)
+        .get();
+
+    docRef.docs.forEach((element) {
+      idShop = "shops/"+element.id;
     });
-    return userTemp.shop;
+
+    print(idShop);
+      return FirebaseFirestore.instance.doc(idShop);
+    }
+
   }
-}

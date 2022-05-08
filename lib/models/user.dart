@@ -65,7 +65,6 @@ class User {
     int? zipCode,
     required bool administrator,
     required DocumentReference shop
-
   }) =>
       User(
         user_uid: user_uid ?? this.user_uid,

@@ -72,7 +72,7 @@ class _QRScanPageState extends State<QRScanPage> {
                   //_prefs.setString("idUser", json.encode(idUser));
 
                   print("ID DEL DOCUMENTO DE LA SHOP = " + alias);
-                  print("ID DEL DOCUMENTO DE LA SHOP = " + idShop);
+                  print("ID DEL DOCUMENTO DE LA SHOP = " + signUpForm.shop.toString());
 
 
                   Navigator.pushNamed(context, link);

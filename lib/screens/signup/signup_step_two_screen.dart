@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:panic_button_app/constants/texts.dart';
 import 'package:panic_button_app/helpers/validators.dart';
@@ -13,6 +12,8 @@ import 'package:panic_button_app/services/services.dart';
 
 import 'package:panic_button_app/ui/input_decorations.dart';
 import 'package:panic_button_app/widgets/widgets.dart';
+
+import '../../models/shop.dart';
 
 class SignUpStepTwoScreen extends StatelessWidget {
   SignUpStepTwoScreen({Key? key}) : super(key: key);
@@ -216,6 +217,20 @@ class _SignUpStepTwoForm extends StatelessWidget {
                       )),
                   onPressed: () async {
                     if (!signUpForm.isValidStepTwoForm()) return;
+
+                    if(signUpForm.shop == null || signUpForm.shop.toString() == ""){
+                      final shop = Shop(
+                          address: signUpForm.address,
+                          alias: signUpForm.alias,
+                          countryCode: signUpForm.countryCode,
+                          location: signUpForm.location,
+                          phone: signUpForm.phone
+                      );
+                      signUpForm.shop = await authService.insertShop(shop);
+                    }
+
+                    print(signUpForm.shop);
+
                     final user = User(
                         administrator: signUpForm.administrator,
                         phone: signUpForm.phone,
@@ -237,7 +252,7 @@ class _SignUpStepTwoForm extends StatelessWidget {
                         lastname: signUpForm.lastName,
                         zipCode: int.tryParse(signUpForm.zipCode),
                         location: signUpForm.location,
-                        shop: signUpForm.shop
+                        shop: signUpForm.shop!
                         );
 
 
