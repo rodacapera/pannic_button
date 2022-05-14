@@ -49,6 +49,14 @@ class AuthService extends ChangeNotifier {
   Map<String, dynamic> dataFromUsers = {};
   late pb.User _userLogged;
   late Shop _shop;
+  late List<pb.User> _employees;
+
+  List<pb.User> get employees => _employees;
+
+  set employees(List<pb.User> employees) {
+    _employees = employees;
+    notifyListeners();
+  }
 
   Shop get shop => _shop;
 
@@ -141,6 +149,7 @@ class AuthService extends ChangeNotifier {
                     .get()
                     .then((value) =>
                 {
+                  print(''),
                   userLogged = pb.User.fromJson(value.data()!),
                   _prefs.setString("userLogged",
                       json.encode(userLogged.toJson())),
@@ -330,5 +339,19 @@ class AuthService extends ChangeNotifier {
     print(idShop);
       return FirebaseFirestore.instance.doc(idShop);
     }
+
+  Future selectEmployees(DocumentReference shop) async {
+      var employees = await _firestore
+        .collection('users')
+        .where('shop', isEqualTo: shop)
+        .get();
+      employees.docs.forEach((element) {
+        pb.User nuevo = pb.User.fromJson(element.data());
+        if(!nuevo.administrator) {
+          _employees.add(nuevo);
+          print(nuevo.alias);
+        }
+      });
+  }
 
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:panic_button_app/constants/texts.dart';
+import 'package:panic_button_app/main.dart';
 import 'package:panic_button_app/services/auth_service.dart';
 import 'package:provider/provider.dart';
 
@@ -57,19 +58,26 @@ Widget _buildMenuItems(BuildContext context) {
           Navigator.pushNamed(context, 'edit_user_profile');
         },
       ),
-      ListTile(
+      Visibility(
+        visible: authService.userLogged.administrator,
+        child: ListTile(
         leading: const Icon(Icons.person_add),
         title: Text('Registrar Usuario'),
         onTap: () {
           Navigator.pushNamed(context, 'register_user_employee_screen');
         },
       ),
-      ListTile(
+      ),
+      Visibility(
+        visible: authService.userLogged.administrator,
+        child: ListTile(
         leading: const Icon(Icons.person_search),
-        title: Text('Administrar Uusarios'),
-        onTap: () {
+        title: Text('Administrar Usarios'),
+        onTap: () async{
+          await authService.selectEmployees(authService.userLogged.shop);
           Navigator.pushNamed(context, 'administration_employees_screen');
         },
+      ),
       ),
       ListTile(
         leading: const Icon(Icons.logout),

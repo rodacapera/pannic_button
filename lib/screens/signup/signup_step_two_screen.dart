@@ -218,13 +218,19 @@ class _SignUpStepTwoForm extends StatelessWidget {
                   onPressed: () async {
                     if (!signUpForm.isValidStepTwoForm()) return;
 
+                    signUpForm.pay = "pending";
+
                     if(signUpForm.shop == null || signUpForm.shop.toString() == ""){
+
+                      signUpForm.administrator = true;
+
                       final shop = Shop(
                           address: signUpForm.address,
                           alias: signUpForm.alias,
                           countryCode: signUpForm.countryCode,
                           location: signUpForm.location,
-                          phone: signUpForm.phone
+                          phone: signUpForm.phone,
+                          zipCode: int.tryParse(signUpForm.zipCode)
                       );
                       signUpForm.shop = await authService.insertShop(shop);
                     }
@@ -252,9 +258,9 @@ class _SignUpStepTwoForm extends StatelessWidget {
                         lastname: signUpForm.lastName,
                         zipCode: int.tryParse(signUpForm.zipCode),
                         location: signUpForm.location,
-                        shop: signUpForm.shop!
-                        );
-
+                        shop: signUpForm.shop!,
+                        pay: signUpForm.pay
+                    );
 
                     await authService.signUp(user);
                     Navigator.pushNamed(context, 'checkOtp', arguments: user);
