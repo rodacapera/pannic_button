@@ -49,7 +49,7 @@ class AuthService extends ChangeNotifier {
   Map<String, dynamic> dataFromUsers = {};
   late pb.User _userLogged;
   late Shop _shop;
-  late List<pb.User> _employees;
+  List<pb.User> _employees = [];
 
   List<pb.User> get employees => _employees;
 
@@ -341,6 +341,7 @@ class AuthService extends ChangeNotifier {
     }
 
   Future selectEmployees(DocumentReference shop) async {
+    _employees = [];
       var employees = await _firestore
         .collection('users')
         .where('shop', isEqualTo: shop)
@@ -352,6 +353,12 @@ class AuthService extends ChangeNotifier {
           print(nuevo.alias);
         }
       });
-  }
+    }
 
-  }
+  Future deleteEmploye(pb.User user) async {
+   await _firestore
+        .collection('users')
+        .doc(user.user_uid).delete();
+    _employees.remove(user);
+    }
+}
