@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import 'package:panic_button_app/constants/texts.dart';
-import 'package:panic_button_app/services/firebase_dynamic_link.dart';
 
+import '../../services/firebase_dynamic_link.dart';
 import '../../widgets/auth_background.dart';
 import '../../widgets/card_users_widget.dart';
 
@@ -19,6 +19,7 @@ class _AdministrationEmployeeScreenState
     extends State<AdministrationEmployeeScreen> {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text(TextConstants.userAdministration)),
@@ -44,6 +45,7 @@ class BotonFlotante extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseDynamicLinkService.CreateDynamicLink(context);
     return SpeedDial(
       child: const Icon(Icons.account_circle, size: 55),
       children: [
@@ -58,7 +60,7 @@ class BotonFlotante extends StatelessWidget {
           child: Icon(Icons.person_add),
           label: 'Registrar',
           onTap: () {
-            Navigator.pushNamed(context, 'register_user_employee_screen');
+
           },
         )
       ],

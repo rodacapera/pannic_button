@@ -17,6 +17,7 @@ import 'package:panic_button_app/screens/users/administration_employees_screen.d
 import 'package:panic_button_app/screens/users/edit_user_profile_screen.dart';
 import 'package:panic_button_app/screens/users/qr_code.dart';
 import 'package:panic_button_app/screens/users/register_user_employee_screen.dart';
+import 'package:panic_button_app/services/firebase_dynamic_link.dart';
 import 'package:panic_button_app/services/push_notifications_service.dart';
 import 'package:panic_button_app/widgets/qr_scan.dart';
 import 'package:provider/provider.dart';
@@ -176,6 +177,7 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver {
         )
       ],
       child: const MyApp(),
+
     );
   }
 }
@@ -186,9 +188,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
+    FirebaseDynamicLinkService.listenDynamicLink();
+
     if (userLogged != null && userLogged.runtimeType != bool) {
       authService.userLoggedUnNotified = User.fromJson(json.decode(userLogged));
     }
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: TextConstants.nameApp,

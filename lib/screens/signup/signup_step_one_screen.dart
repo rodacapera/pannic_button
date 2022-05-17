@@ -10,7 +10,6 @@ import 'package:panic_button_app/constants/texts.dart';
 import 'package:panic_button_app/helpers/validators.dart';
 import 'package:panic_button_app/providers/signup_form_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:panic_button_app/services/firebase_dynamic_link.dart';
 
 
 import 'package:panic_button_app/services/services.dart';

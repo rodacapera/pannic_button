@@ -18,6 +18,7 @@ import 'package:panic_button_app/widgets/drawer_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../blocs/gps/gps_bloc.dart';
+import '../services/firebase_dynamic_link.dart';
 import '../widgets/panic_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -45,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final size = MediaQuery.of(context).size;
     final panicService = Provider.of<PanicService>(context);
     final authService = Provider.of<AuthService>(context);
+
     return Scaffold(
         appBar: AppBar(
           title: Center(child: Text(TextConstants.nameApp)),

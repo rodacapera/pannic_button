@@ -45,6 +45,4 @@ class CardUsersContainer extends StatelessWidget {
         )
     );
   }
-
-
 }
