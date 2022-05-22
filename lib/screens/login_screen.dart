@@ -16,6 +16,7 @@ import 'package:panic_button_app/ui/input_decorations.dart';
 import 'package:panic_button_app/widgets/widgets.dart';
 
 import '../blocs/gps/gps_bloc.dart';
+import '../services/firebase_dynamic_link.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-
+    FirebaseDynamicLinkService.listenDynamicLink(context);
     locationBloc = BlocProvider.of<LocationBloc>(context);
     locationBloc.getCurrentPosition();
   }

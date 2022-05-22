@@ -34,21 +34,18 @@ class FirebaseDynamicLinkService {
     return _linkMessage;
   }
 
-  static Future<void> listenDynamicLink() async {
-    try {
-      await Future.delayed(Duration(seconds: 5));
+  static Future<void> listenDynamicLink(BuildContext context) async {
+      await Future.delayed(const Duration(seconds: 5));
       FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
         /// Data recuperada del listener, llamaremos a una función para manejar esta información.
         String route = handleDynamicLink(dynamicLinkData);
-        print(route);
+        if(route == 'signup_step_one'){
+          Navigator.pushNamed(context, route);
+        }
       }).onError((e) {
-        return;
+        return false;
       });
-    } catch (_) {
-      return;
-    }
   }
-
   static String handleDynamicLink(PendingDynamicLinkData data) {
 
       final deepLink = data.link;
