@@ -188,9 +188,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
- 
+
     if (userLogged != null && userLogged.runtimeType != bool) {
       authService.userLoggedUnNotified = User.fromJson(json.decode(userLogged));
+
     }
 
     return MaterialApp(

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/auth_service.dart';
 
@@ -14,14 +15,12 @@ class QRCode extends StatefulWidget {
 
 class _QRCodeState extends State<QRCode> with SingleTickerProviderStateMixin {
 
-  String data = "";
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
+    
+    final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
 
-    //data = authService.userLogged.user_uid!;
-    data =  'signup_step_one/'+ authService.userLogged.alias+ '/'+ authService.userLogged.shop.path;
     return Scaffold(
         appBar: AppBar(
           title: Text("Codigo QR"),
@@ -31,14 +30,14 @@ class _QRCodeState extends State<QRCode> with SingleTickerProviderStateMixin {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text("Codigo generado con el texto: \n $data",
+            Text("Codigo generado con el texto: \n "+ arguments['link'],
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24
               )
             ),
             SizedBox(height: 20,),
-            QrImage(data: data,
+            QrImage(data: arguments['link'],
             size: 300,)
           ],
         ),

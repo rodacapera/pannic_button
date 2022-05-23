@@ -45,7 +45,6 @@ class BotonFlotante extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FirebaseDynamicLinkService.CreateDynamicLink(context);
     return SpeedDial(
       child: const Icon(Icons.account_circle, size: 55),
       children: [
@@ -53,7 +52,8 @@ class BotonFlotante extends StatelessWidget {
           child: Icon(Icons.qr_code),
           label: 'QR',
           onTap: () async {
-            Navigator.pushNamed(context, 'qr_code');
+            String route = await FirebaseDynamicLinkService.CreateDynamicLink(context);
+            Navigator.pushNamed(context, 'qr_code', arguments:{'link' : route});
           },
         ),
         SpeedDialChild(

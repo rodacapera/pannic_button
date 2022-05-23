@@ -1,24 +1,33 @@
+import 'dart:convert';
+
 import 'package:panic_button_app/services/auth_service.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../models/user.dart';
 
 class FirebaseDynamicLinkService {
 
   static Future<String> CreateDynamicLink(BuildContext context) async {
 
     String _linkMessage;
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    late final userLogged = _prefs.get('userLogged');
 
-    final authService = Provider.of<AuthService>(context);
+    print(_prefs.toString());
+
+    //final authService = Provider.of<AuthService>(context);
 
     String view =  'signup_step_one';
-    String alias = authService.userLogged.alias;
-    String shop = authService.userLogged.shop.path;
+    String alias = 'authService.userLogged.alias';
+    String shop = 'authService.userLogged.shop.path';
 
     final DynamicLinkParameters dynamicLinkParams = DynamicLinkParameters(
       uriPrefix: "https://bodegalert.page.link",
-      link: Uri.parse("https://bodegalert.com/?view=$view"),
+      link: Uri.parse("https://bodegalert.com/?view=$view&alias=$alias&shop=$shop"),
       androidParameters:
           const AndroidParameters(packageName: "io.cordova.alarmu"),
       iosParameters: const IOSParameters(bundleId: "io.cordova.alarmu"),
@@ -30,6 +39,8 @@ class FirebaseDynamicLinkService {
 
     _linkMessage = dynamicLink.toString();
     print("Dynamic Link -> $_linkMessage");
+
+
 
     return _linkMessage;
   }
