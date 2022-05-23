@@ -32,8 +32,8 @@ class _AdministrationEmployeeScreenState
               icon: const Icon(Icons.notifications))
         ],
       ),
-      body: CardUsersContainer(),
-      floatingActionButton: BotonFlotante(),
+      body: const CardUsersContainer(),
+      floatingActionButton: const BotonFlotante(),
     );
   }
 }
@@ -49,7 +49,7 @@ class BotonFlotante extends StatelessWidget {
       child: const Icon(Icons.account_circle, size: 55),
       children: [
         SpeedDialChild(
-          child: Icon(Icons.qr_code),
+          child: const Icon(Icons.qr_code),
           label: 'QR',
           onTap: () async {
             String route = await FirebaseDynamicLinkService.CreateDynamicLink(context);
@@ -57,7 +57,7 @@ class BotonFlotante extends StatelessWidget {
           },
         ),
         SpeedDialChild(
-          child: Icon(Icons.person_add),
+          child: const Icon(Icons.person_add),
           label: 'Registrar',
           onTap: () {
 

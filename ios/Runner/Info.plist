@@ -38,6 +38,20 @@
 				<string>com.googleusercontent.apps.923215387352-ajtg2qkbj90ecvf7uodb73dp8a2hu6f9</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Bundle ID</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+				<string>(basically</string>
+				<string>your</string>
+				<string>Bundle</string>
+				<string>ID)</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
@@ -59,8 +73,6 @@
 	<string>Para poder agregar una foto de perfil es necesario que otorgues permisos de lectura de fotos</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>fetch</string>
-		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
@@ -82,9 +94,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIBackgroundModes</key>
-    <array>
-        <string>remote-notification</string>
-    </array>
 </dict>
 </plist>
