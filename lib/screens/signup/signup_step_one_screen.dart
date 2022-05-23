@@ -19,11 +19,11 @@ import 'package:panic_button_app/widgets/widgets.dart';
 
 class SignUpStepOneScreen extends StatelessWidget {
   const SignUpStepOneScreen({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
-
-
+    final data = ModalRoute.of(context)!.settings.arguments;
+    print('llega>>> $data');
     return Scaffold(
         body: AuthBackground(
             child: SingleChildScrollView(
@@ -180,7 +180,7 @@ class _SignUpStepOneForm extends StatelessWidget {
                             context: context,
                             type: CoolAlertType.success,
                             title: "Exito",
-                            text: "$_linkMessage",
+                            text: _linkMessage,
                             loopAnimation: false);
 
                         Navigator.pushNamed(context, 'signup_step_two');

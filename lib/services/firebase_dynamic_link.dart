@@ -12,13 +12,15 @@ class FirebaseDynamicLinkService {
 
     final authService = Provider.of<AuthService>(context);
 
+    // String data =  'signup_step_one?'+ authService.userLogged.alias+ '/'+ authService.userLogged.shop.path;
+
     String view =  'signup_step_one';
     String alias = authService.userLogged.alias;
-    String shop = authService.userLogged.shop.path;
+    String reference = authService.userLogged.shop.path;
 
     final DynamicLinkParameters dynamicLinkParams = DynamicLinkParameters(
       uriPrefix: "https://bodegalert.page.link",
-      link: Uri.parse("https://bodegalert.com/?view=$view"),
+      link: Uri.parse("https://bodegalert.com/?view=$view&alias=$alias&reference=$reference"),
       androidParameters:
           const AndroidParameters(packageName: "io.cordova.alarmu"),
       iosParameters: const IOSParameters(bundleId: "io.cordova.alarmu"),
@@ -35,26 +37,18 @@ class FirebaseDynamicLinkService {
   }
 
   static Future<void> listenDynamicLink(BuildContext context) async {
-      await Future.delayed(const Duration(seconds: 5));
       FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
         /// Data recuperada del listener, llamaremos a una función para manejar esta información.
-        String route = handleDynamicLink(dynamicLinkData);
-        if(route == 'signup_step_one'){
-          Navigator.pushNamed(context, route);
+        final deepLink = dynamicLinkData.link;
+        final view = deepLink.queryParameters['view'];
+        final alias = deepLink.queryParameters['alias'];
+        final reference = deepLink.queryParameters['reference'];
+        if(view == 'signup_step_one'){
+          final data = {"view": view, "alias": alias, "reference": reference};
+          Navigator.pushNamed(context, view.toString(),  arguments: data );
         }
       }).onError((e) {
         return false;
       });
   }
-  static String handleDynamicLink(PendingDynamicLinkData data) {
-
-      final deepLink = data.link;
-      if (deepLink != null) {
-          final view = deepLink.queryParameters['view'];
-            if (view != null) {
-              return view;    // Aca tenemos el código de que recibimos a través del link que apretamos, es decir el código de mi referido, acá tu debes crear tu lógica.
-            }
-        }
-      return '';
-    }
 }

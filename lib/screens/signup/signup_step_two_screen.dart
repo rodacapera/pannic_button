@@ -17,6 +17,7 @@ import '../../models/shop.dart';
 
 class SignUpStepTwoScreen extends StatelessWidget {
   SignUpStepTwoScreen({Key? key}) : super(key: key);
+  
 
   final ScrollController _scrollController = ScrollController(
     initialScrollOffset: 120,
