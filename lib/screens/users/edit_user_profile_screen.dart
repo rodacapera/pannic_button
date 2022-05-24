@@ -36,7 +36,8 @@ class EditUserProfileScreen extends StatelessWidget {
               userLogged.lastname,
               userLogged.email,
               userLogged.address,
-              userLogged.alias),
+              userLogged.alias,
+              userLogged.administrator),
           child: const _EditUserForm()),
     );
   }
@@ -55,7 +56,6 @@ class _EditUserForm extends StatelessWidget {
       initialScrollOffset: 120,
       keepScrollOffset: true,
     );
-
     return SingleChildScrollView(
       controller: _scrollController,
       child: Padding(
@@ -96,6 +96,7 @@ class _EditUserForm extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  readOnly: !editUserFormProvider.administrator,
                   autocorrect: false,
                   keyboardType: TextInputType.emailAddress,
                   initialValue: editUserFormProvider.alias,

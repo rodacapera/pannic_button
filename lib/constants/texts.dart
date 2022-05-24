@@ -90,4 +90,6 @@ abstract class TextConstants {
   static String userAdministration = 'Administrador De Usuarios';
   static String QRScanner = 'Scanear QR';
   static String userRegister = 'Registro De Usuarios';
+  static String generatedCode = 'Código generado con éxito';
+  static String descriptionScanQR = 'Por favor escanea el código para registrarte en nuestro establecimiento.';
 }

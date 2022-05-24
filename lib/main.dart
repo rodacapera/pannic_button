@@ -128,7 +128,6 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver {
     });
     PushNotificationService.messagesStream
         .listen((Map<String, dynamic> message) async {
-      print('abrio notificación desde main');
       // FlutterAppBadger.updateBadgeCount(0);
       // FlutterAppBadger.removeBadge();
       await AwesomeNotifications().createNotification(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class EditUserFormProvider extends ChangeNotifier {
   EditUserFormProvider(
-      this._name, this._lastName, this._email, this._address, this._alias);
+      this._name, this._lastName, this._email, this._address, this._alias, this._administrator);
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -12,6 +12,14 @@ class EditUserFormProvider extends ChangeNotifier {
   String _address = '';
   String _alias = '';
   bool _isLoading = false;
+  bool _administrator = false;
+
+  bool get administrator => _administrator;
+
+  set administrator(bool administrator) {
+    _administrator = administrator;
+    notifyListeners();
+  }
 
   bool get isLoading => _isLoading;
 
