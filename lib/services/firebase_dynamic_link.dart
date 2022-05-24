@@ -6,19 +6,17 @@ import 'package:provider/provider.dart';
 
 class FirebaseDynamicLinkService {
 
-  static Future<String> CreateDynamicLink(BuildContext context) async {
+  static Future<String> CreateDynamicLink(String alias, String shop) async {
 
     String _linkMessage;
 
-    final authService = Provider.of<AuthService>(context);
 
     String view =  'signup_step_one';
-    String alias = authService.userLogged.alias;
-    String shop = authService.userLogged.shop.path;
+
 
     final DynamicLinkParameters dynamicLinkParams = DynamicLinkParameters(
       uriPrefix: "https://bodegalert.page.link",
-      link: Uri.parse("https://bodegalert.com/?view=$view"),
+      link: Uri.parse("https://bodegalert.com/?view=$view&alias=$alias&shop=$shop"),
       androidParameters:
           const AndroidParameters(packageName: "io.cordova.alarmu"),
       iosParameters: const IOSParameters(bundleId: "io.cordova.alarmu"),

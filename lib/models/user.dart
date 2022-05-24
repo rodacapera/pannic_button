@@ -47,7 +47,7 @@ class User {
   Map<String, dynamic> location;
   int? zipCode;
   bool administrator;
-  dynamic shop;
+  DocumentReference shop;
   String pay;
 
   User copyWith({
