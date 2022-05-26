@@ -149,8 +149,9 @@ class AuthService extends ChangeNotifier {
                     .get()
                     .then((value) =>
                 {
-                  print(''),
+                  print('usuario logueado con exito'),
                   userLogged = pb.User.fromJson(value.data()!),
+                  print('resultado $userLogged'),
                   _prefs.setString("userLogged",
                       json.encode(userLogged.toJson())),
                   isValidOTP = true,

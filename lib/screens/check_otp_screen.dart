@@ -31,7 +31,7 @@ class CheckOtpScreen extends StatelessWidget {
                   children: [
                     const SizedBox(height: 10),
                     Center(
-                      child: Text('Código de verificación',
+                      child: Text(TextConstants.verificationCode,
                           style: Theme.of(context).textTheme.headline5),
                     ),
                     const SizedBox(height: 20),
@@ -83,6 +83,7 @@ class _otpVerificationForm extends StatelessWidget {
       },
       //runs when every textfield is filled
       onSubmit: (String verificationCode) async {
+        print('user send >> $user');
         if (user != null) {
           await authService.verifyOtp(verificationCode, user);
         } else {
