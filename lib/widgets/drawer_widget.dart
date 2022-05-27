@@ -74,7 +74,6 @@ Widget _buildMenuItems(BuildContext context) {
         leading: const Icon(Icons.person_search),
         title: Text('Administrar Usarios'),
         onTap: () async{
-          await authService.selectEmployees(authService.userLogged.shop);
           Navigator.pushNamed(context, 'administration_employees_screen');
         },
       ),

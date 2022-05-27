@@ -68,7 +68,7 @@ class BotonFlotante extends StatelessWidget {
           child: const Icon(Icons.person_add),
           label: 'Registrar',
           onTap: () {
-
+            Navigator.pushNamed(context, 'signup_step_one');
           },
         )
       ],

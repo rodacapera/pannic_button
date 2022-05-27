@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/signup_form_provider.dart';
+
 class FirebaseDynamicLinkService {
 
   static Future<String> CreateDynamicLink(String alias, String shop) async {
@@ -33,17 +35,28 @@ class FirebaseDynamicLinkService {
   }
 
   static Future<void> listenDynamicLink(BuildContext context) async {
-      await Future.delayed(const Duration(seconds: 5));
+    //final signUpForm = Provider.of<SignUpFormProvider>(context);
+
+    await Future.delayed(const Duration(seconds: 5));
       FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) {
         /// Data recuperada del listener, llamaremos a una función para manejar esta información.
-        String route = handleDynamicLink(dynamicLinkData);
-        if(route == 'signup_step_one'){
-          Navigator.pushNamed(context, route);
+
+        final deepLink = dynamicLinkData.link;
+        if (deepLink != null) {
+          final view = deepLink.queryParameters['view'];
+          final alias = deepLink.queryParameters['alias'];
+          final shop = deepLink.queryParameters['shop'];
+
+          if(view == 'signup_step_one'){
+            Navigator.pushNamed(context, view!, arguments: {alias, shop});
+          }
         }
+
       }).onError((e) {
         return false;
       });
   }
+  /*
   static String handleDynamicLink(PendingDynamicLinkData data) {
 
       final deepLink = data.link;
@@ -55,4 +68,5 @@ class FirebaseDynamicLinkService {
         }
       return '';
     }
+   */
 }

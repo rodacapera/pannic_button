@@ -151,6 +151,7 @@ class AuthService extends ChangeNotifier {
                 {
                   print(''),
                   userLogged = pb.User.fromJson(value.data()!),
+                  selectEmployees(userLogged.shop),
                   _prefs.setString("userLogged",
                       json.encode(userLogged.toJson())),
                   isValidOTP = true,

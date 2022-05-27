@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,12 @@ class SignUpStepOneScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final data = ModalRoute.of(context)!.settings.arguments;
-    print('llega>>> $data');
+    var parts = data.toString().split(',');
+    final signUpForm = Provider.of<SignUpFormProvider>(context);
+    signUpForm.alias = parts[0].replaceAll("{", "");
+    var shopReference = parts[1].replaceAll("}", "");
+    signUpForm.shop = FirebaseFirestore.instance.doc(shopReference.replaceAll(" ", ""));
+
     return Scaffold(
         body: AuthBackground(
             child: SingleChildScrollView(
@@ -77,7 +83,6 @@ class _SignUpStepOneForm extends StatelessWidget {
                 labelText: TextConstants.cellPhone,
                 prefixIcon: Icons.lock_outline),
             initialCountryCode: 'US',
-            initialValue: signUpForm.phone,
             countries: const ["US", "DO", "CO"],
             validator: checkEmpty,
             autovalidateMode: AutovalidateMode.onUserInteraction,

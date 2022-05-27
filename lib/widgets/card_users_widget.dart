@@ -31,7 +31,6 @@ class CardUsersContainer extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    FlatButton(onPressed: () => {}, child: Text('Editar')),
                     FlatButton(onPressed: () => {
                       authService.deleteEmploye(authService.employees[index]),
 
