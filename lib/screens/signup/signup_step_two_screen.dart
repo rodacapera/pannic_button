@@ -71,7 +71,7 @@ class _SignUpStepTwoForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final signUpForm = Provider.of<SignUpFormProvider>(context);
-    final authService = Provider.of<AuthService>(context, listen: false);   
+    final authService = Provider.of<AuthService>(context, listen: false);
     
     // List of items in our dropdown menu
     var items = [    
@@ -171,7 +171,7 @@ class _SignUpStepTwoForm extends StatelessWidget {
           const SizedBox(height: 10),
           TextFormField(
               autocorrect: false,
-              initialValue: signUpForm.alias,
+              initialValue: signUpForm.alias != null ? signUpForm.alias : '',
               keyboardType: TextInputType.emailAddress,
               autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecorations.authInputDecoration(
@@ -234,6 +234,8 @@ class _SignUpStepTwoForm extends StatelessWidget {
                           zipCode: int.tryParse(signUpForm.zipCode)
                       );
                       signUpForm.shop = await authService.insertShop(shop);
+                    }else{
+                      signUpForm.administrator = false;
                     }
 
                     print(signUpForm.shop);

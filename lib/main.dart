@@ -221,7 +221,6 @@ class MyApp extends StatelessWidget {
         'edit_user_profile': (_) => const EditUserProfileScreen(),
         'qr_scan': (_) =>  QRScanPage(),
         'qr_code': (_) => const QRCode(),
-        'register_user_employee_screen': (_) => const RegisterEmployeeScreen(),
         'administration_employees_screen': (_) =>
             const AdministrationEmployeeScreen()
       },

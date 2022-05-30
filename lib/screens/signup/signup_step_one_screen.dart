@@ -24,11 +24,13 @@ class SignUpStepOneScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final data = ModalRoute.of(context)!.settings.arguments;
-    var parts = data.toString().split(',');
-    final signUpForm = Provider.of<SignUpFormProvider>(context);
-    signUpForm.alias = parts[0].replaceAll("{", "");
-    var shopReference = parts[1].replaceAll("}", "");
-    signUpForm.shop = FirebaseFirestore.instance.doc(shopReference.replaceAll(" ", ""));
+    if(data != null){
+      var parts = data.toString().split(',');
+      final signUpForm = Provider.of<SignUpFormProvider>(context);
+      signUpForm.alias = parts[0].replaceAll("{", "");
+      var shopReference = parts[1].replaceAll("}", "");
+      signUpForm.shop = FirebaseFirestore.instance.doc(shopReference.replaceAll(" ", ""));
+    }
 
     return Scaffold(
         body: AuthBackground(
@@ -164,30 +166,13 @@ class _SignUpStepOneForm extends StatelessWidget {
                             address.first.isoCountryCode!;
                         signUpForm.zipCode = address.first.postalCode ?? '';
 
-                        String _linkMessage;
-
                         /*final authService = Provider.of<AuthService>(context);*/
-
-                        final DynamicLinkParameters dynamicLinkParams = DynamicLinkParameters(
-                          link: Uri.parse("https://bodegalert.com/"),
-                          uriPrefix: "https://bodegalert.page.link",
-                          androidParameters:
-                          const AndroidParameters(packageName: "io.cordova.alarmu"),
-                          iosParameters: const IOSParameters(bundleId: "io.cordova.alarmu"),
-                        );
-
-                        final dynamicLink =
-                        await FirebaseDynamicLinks.instance.buildLink(dynamicLinkParams);
-
-                        _linkMessage = dynamicLink.toString();
 
                         CoolAlert.show(
                             context: context,
                             type: CoolAlertType.success,
                             title: "Exito",
-                            text: _linkMessage,
                             loopAnimation: false);
-
                         Navigator.pushNamed(context, 'signup_step_two');
 
                       } catch (e) {

@@ -64,7 +64,7 @@ Widget _buildMenuItems(BuildContext context) {
         leading: const Icon(Icons.person_add),
         title: Text('Registrar Usuario'),
         onTap: () {
-          Navigator.pushNamed(context, 'register_user_employee_screen');
+          Navigator.pushNamed(context, 'signup_step_one');
         },
       ),
       ),
