@@ -217,7 +217,6 @@ class AuthService extends ChangeNotifier {
         alias = value.data()!.values.elementAt(4).toString();
       }
     });
-    print(alias);
     return alias;
   }
 
