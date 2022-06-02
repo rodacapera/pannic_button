@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:panic_button_app/blocs/location/location_bloc.dart';
@@ -99,6 +101,11 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
+    final signUpForm = Provider.of<SignUpFormProvider>(context);
+    final authService = Provider.of<AuthService>(context);
+
+    String qrCode = 'Unknown';
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Form(
@@ -169,6 +176,39 @@ class _LoginForm extends StatelessWidget {
                           loginForm.isLoading = false;
                         }
                       }),
+            const SizedBox(height: 20),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 177, 19, 16),
+                  onPrimary: Colors.white
+              ),
+              icon: Icon(Icons.camera_alt),
+              label: Text('Scan'),
+              onPressed: () async {
+                try {
+                  qrCode = await FlutterBarcodeScanner.scanBarcode(
+                      "#ff6666", "Cancel", true, ScanMode.QR);
+                } on PlatformException {
+                  qrCode = "Fallo en la lectura del codigo Qr";
+                }
+
+                print(qrCode);
+
+                var link = 'signup_step_one';
+
+                var parts = qrCode.split('%2F');
+
+                var idShop = 'shops/'+ parts[parts.length-1];
+
+                print(idShop);
+
+                signUpForm.shop = FirebaseFirestore.instance.doc(idShop);
+
+                signUpForm.alias = await authService.searchShop(parts[parts.length-1]);
+
+                Navigator.pushNamed(context, link);
+                },
+            ),
           ],
         ),
       ),

@@ -206,6 +206,21 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+  Future<String> searchShop(idShop) async{
+    String alias = '';
+    await _firestore
+        .collection('shops')
+        .doc(idShop)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        alias = value.data()!.values.elementAt(4).toString();
+      }
+    });
+    print(alias);
+    return alias;
+  }
+
   Future login(phoneNumber) async {
     //first we will check if a user with this cell number exists
     await _firestore
