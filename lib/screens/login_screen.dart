@@ -50,7 +50,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
               children: [
                 const SizedBox(height: 10),
-                Text(TextConstants.login, style: Theme.of(context).textTheme.headline4),
+                Text(TextConstants.login,
+                    style: Theme.of(context).textTheme.headline4),
                 const SizedBox(height: 20),
                 _LoginForm()
               ],
@@ -78,7 +79,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   style: ButtonStyle(
                       overlayColor: MaterialStateProperty.all(
-                          const Color.fromARGB(255, 177, 19, 16).withOpacity(0.1)),
+                          const Color.fromARGB(255, 177, 19, 16)
+                              .withOpacity(0.1)),
                       shape: MaterialStateProperty.all(const StadiumBorder())),
                   child: Text(
                     TextConstants.newAccount,
@@ -114,8 +116,8 @@ class _LoginForm extends StatelessWidget {
               validator: checkEmpty,
               autovalidateMode: AutovalidateMode.always,
               pickerDialogStyle: PickerDialogStyle(
-                  searchFieldInputDecoration:
-                    InputDecoration(label: Text(TextConstants.searchCountry))),
+                  searchFieldInputDecoration: InputDecoration(
+                      label: Text(TextConstants.searchCountry))),
               onChanged: (phone) {
                 loginForm.phoneNumber = '${phone.countryCode}${phone.number}';
               },
@@ -129,9 +131,12 @@ class _LoginForm extends StatelessWidget {
                 elevation: 0,
                 color: const Color.fromARGB(255, 177, 19, 16),
                 child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 80, vertical: 15),
                     child: Text(
-                      loginForm.isLoading ? TextConstants.await : TextConstants.login,
+                      loginForm.isLoading
+                          ? TextConstants.await
+                          : TextConstants.login,
                       style: const TextStyle(color: Colors.white),
                     )),
                 onPressed: loginForm.isLoading
@@ -164,19 +169,6 @@ class _LoginForm extends StatelessWidget {
                           loginForm.isLoading = false;
                         }
                       }),
-        SpeedDial(
-    child: const Icon(Icons.account_circle, size: 55),
-    children: [
-    SpeedDialChild(
-    child: Icon(Icons.qr_code),
-    label: 'QR',
-    onTap: () {
-    Navigator.pushNamed(context, 'qr_scan');
-    },
-    ),
-    ],
-    backgroundColor: const Color.fromARGB(255, 177, 19, 16),
-        )
           ],
         ),
       ),
