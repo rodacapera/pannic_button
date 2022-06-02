@@ -192,8 +192,6 @@ class _LoginForm extends StatelessWidget {
                   qrCode = "Fallo en la lectura del codigo Qr";
                 }
 
-                print(qrCode);
-
                 var link = 'signup_step_one';
 
                 var parts = qrCode.split('%2F');
