@@ -19,7 +19,7 @@ class _QRCodeState extends State<QRCode> with SingleTickerProviderStateMixin {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(TextConstants.QRScanner),
+          title: Center(child: Text(TextConstants.QRScanner)),
           backgroundColor: const Color.fromARGB(255, 177, 19, 16),
         ),
       body: Column(

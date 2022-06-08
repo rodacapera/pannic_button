@@ -24,20 +24,25 @@ class SignUpStepOneScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final data = ModalRoute.of(context)!.settings.arguments;
+    final signUpForm = Provider.of<SignUpFormProvider>(context);
+    final authService = Provider.of<AuthService>(context);
+
     if(data != null){
       var parts = data.toString().split(',');
-      final signUpForm = Provider.of<SignUpFormProvider>(context);
       signUpForm.alias = parts[0].replaceAll("{", "");
       var shopReference = parts[1].replaceAll("}", "");
       signUpForm.shop = FirebaseFirestore.instance.doc(shopReference.replaceAll(" ", ""));
     }
 
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 177, 19, 16),
+        ),
         body: AuthBackground(
             child: SingleChildScrollView(
       child: Column(
         children: [
-          const SizedBox(height: 250),
+          const SizedBox(height: 210),
           CardContainer(
               child: Column(
             children: [
@@ -52,16 +57,18 @@ class SignUpStepOneScreen extends StatelessWidget {
             ],
           )),
           const SizedBox(height: 50),
-          TextButton(
+          Visibility(
+              visible: !authService.isValidUser,
+              child: TextButton(
               onPressed: () => Navigator.pop(context),
               style: ButtonStyle(
                   overlayColor:
-                      MaterialStateProperty.all(Colors.indigo.withOpacity(0.1)),
+                  MaterialStateProperty.all(Colors.indigo.withOpacity(0.1)),
                   shape: MaterialStateProperty.all(const StadiumBorder())),
               child: Text(
                 TextConstants.readyAccount,
                 style: const TextStyle(fontSize: 18, color: Colors.black87),
-              )),
+              )),),
           const SizedBox(height: 50),
         ],
       ),
