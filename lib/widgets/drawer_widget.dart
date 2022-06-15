@@ -4,6 +4,8 @@ import 'package:panic_button_app/main.dart';
 import 'package:panic_button_app/services/auth_service.dart';
 import 'package:provider/provider.dart';
 
+import '../services/firebase_dynamic_link.dart';
+
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({Key? key}) : super(key: key);
 
@@ -44,6 +46,8 @@ Widget _buildHeader(BuildContext context) {
 Widget _buildMenuItems(BuildContext context) {
   final authService = Provider.of<AuthService>(context);
 
+  String alias = authService.userLogged.alias;
+  String shop = authService.userLogged.shop.path;
   return Column(
     children: [
       // ListTile(
@@ -63,8 +67,9 @@ Widget _buildMenuItems(BuildContext context) {
         child: ListTile(
         leading: const Icon(Icons.person_add),
         title: Text('Registrar Usuario'),
-        onTap: () {
-          Navigator.pushNamed(context, 'signup_step_one');
+        onTap: () async{
+          String route = await FirebaseDynamicLinkService.CreateDynamicLink(alias, shop);
+          Navigator.pushNamed(context, 'qr_code', arguments:{'link' : route});
         },
       ),
       ),
