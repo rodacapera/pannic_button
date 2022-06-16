@@ -360,7 +360,7 @@ class AuthService extends ChangeNotifier {
       var employees = await _firestore
         .collection('users')
         .where('shop', isEqualTo: shop)
-        .where('pay', isNotEqualTo: "pending")
+        .where('pay', isEqualTo: "success")
         .get();
         employees.docs.forEach((element) {
         pb.User nuevo = pb.User.fromJson(element.data());
