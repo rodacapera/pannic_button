@@ -32,16 +32,17 @@ class CardUsersContainer extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     FlatButton(onPressed: () {
-                        AlertDialog(
-                        title: Text('Notificaciones'),
+                      showDialog(context: context, builder: (context) => AlertDialog(
+                        title: Text('Eliminar Usuario'),
                         content:
-                        Text("¿Desea eliminar el usuario?)"),
+                        Text("¿Esta seguro que desea eliminar el usuario?"),
                         actions: <Widget>[
                           FlatButton(
                               child: Text("Aceptar"),
                               textColor: Colors.blue,
                               onPressed: () {
                                 authService.deleteEmploye(authService.employees[index]);
+                                Navigator.of(context).pop();
                               }),
                           FlatButton(
                               child: Text("Cancelar"),
@@ -50,7 +51,7 @@ class CardUsersContainer extends StatelessWidget {
                                 Navigator.of(context).pop();
                               }),
                         ],
-                      );
+                      ));
                     }, child: Text('Eliminar'))
                   ],
                 )
