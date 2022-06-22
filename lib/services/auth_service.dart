@@ -48,6 +48,7 @@ class AuthService extends ChangeNotifier {
 
   Map<String, dynamic> dataFromUsers = {};
   late pb.User _userLogged;
+  late Map userModel;
   late Shop _shop;
   List<pb.User> _employees = [];
 
@@ -120,83 +121,75 @@ class AuthService extends ChangeNotifier {
     try {
       await _auth
           .signInWithCredential(PhoneAuthProvider.credential(
-          verificationId: verificationCode, smsCode: otpCode))
-          .then((user) async =>
-      {
-        if (user != null)
-          {
-            if (userData != null)
-              {
-                userData.user_uid = _auth.currentUser!.uid,
-                await _firestore
-                    .collection('users')
-                    .doc(_auth.currentUser!.uid)
-                    .set(userData.toJson(), SetOptions(merge: true))
-                    .then((value) =>
-                {userLogged = userData, isLogging = false})
-                    .catchError((onError) =>
-                {
-                  errorMessage = errorMessage.toString(),
-                  debugPrint('Error saving user to db.' +
-                      onError.toString())
-                })
-              }
-            else
-              {
-                await _firestore
-                    .collection('users')
-                    .doc(_auth.currentUser!.uid)
-                    .get()
-                    .then((value) =>
-                {
-                  print(''),
-                  userLogged = pb.User.fromJson(value.data()!),
-                  selectEmployees(userLogged.shop),
-                  _prefs.setString("userLogged",
-                      json.encode(userLogged.toJson())),
-                  isValidOTP = true,
-                  isLogging = true
-                })
-                    .catchError((onError) =>
-                {
-                  errorMessage = errorMessage.toString(),
-                  debugPrint('Error saving user to db.' +
-                      onError.toString()),
-                  isValidOTP = false
-                }),
-                //CHECK IF THE DEVICE IS ALREADY REGISTERED
-                userLogged.devices
-                    .where((device) =>
-                device["device"] ==
-                    PushNotificationService.token)
-                    .toList()
-                    .isEmpty
-                    ? await _firestore
-                    .collection('users')
-                    .doc(_auth.currentUser!.uid)
-                    .update({
-                  "devices": [
-                    ...userLogged.devices,
-                    {
-                      "device": PushNotificationService.token,
-                      "os":
-                      Platform.isAndroid ? "android" : "ios",
-                      "created":
-                      DateTime
-                          .now()
-                          .millisecondsSinceEpoch
-                    }
-                  ]
-                }).catchError((onError) =>
-                {
-                  errorMessage = errorMessage.toString(),
-                  debugPrint('Error saving user to db.' +
-                      onError.toString())
-                })
-                    : null
-              }
-          }
-      })
+              verificationId: verificationCode, smsCode: otpCode))
+          .then((user) async => {
+                if (user != null)
+                  {
+                    if (userData != null)
+                      {
+                        userData.user_uid = _auth.currentUser!.uid,
+                        await _firestore
+                            .collection('users')
+                            .doc(_auth.currentUser!.uid)
+                            .set(userData.toJson(), SetOptions(merge: true))
+                            .then((value) =>
+                                {userLogged = userData, isLogging = false})
+                            .catchError((onError) => {
+                                  errorMessage = errorMessage.toString(),
+                                  debugPrint('Error saving user to db.' +
+                                      onError.toString())
+                                })
+                      }
+                    else
+                      {
+                        await _firestore
+                            .collection('users')
+                            .doc(_auth.currentUser!.uid)
+                            .get()
+                            .then((value) async => {
+                                  userLogged = pb.User.fromJson(value.data()!),
+                                  await selectEmployees(userLogged.shop),
+                                  await _prefs.setString("userLogged",
+                                      json.encode(userLogged.toJson())),
+                                  isValidOTP = true,
+                                  isLogging = true
+                                })
+                            .catchError((onError) => {
+                                  errorMessage = errorMessage.toString(),
+                                  debugPrint('Error saving user to db error ->' +
+                                      onError.toString()),
+                                  isValidOTP = false
+                                }),
+                        //CHECK IF THE DEVICE IS ALREADY REGISTERED
+                        userLogged.devices
+                                .where((device) =>
+                                    device["device"] ==
+                                    PushNotificationService.token)
+                                .toList()
+                                .isEmpty
+                            ? await _firestore
+                                .collection('users')
+                                .doc(_auth.currentUser!.uid)
+                                .update({
+                                "devices": [
+                                  ...userLogged.devices,
+                                  {
+                                    "device": PushNotificationService.token,
+                                    "os":
+                                        Platform.isAndroid ? "android" : "ios",
+                                    "created":
+                                        DateTime.now().millisecondsSinceEpoch
+                                  }
+                                ]
+                              }).catchError((onError) => {
+                                      errorMessage = errorMessage.toString(),
+                                      debugPrint('Error saving user to db.' +
+                                          onError.toString())
+                                    })
+                            : null
+                      }
+                  }
+              })
           .catchError(
               (onError) => {print('error ${onError}'), isValidOTP = false});
       isValidOTP = true;
@@ -206,13 +199,9 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<String> searchShop(idShop) async{
+  Future<String> searchShop(idShop) async {
     String alias = '';
-    await _firestore
-        .collection('shops')
-        .doc(idShop)
-        .get()
-        .then((value) {
+    await _firestore.collection('shops').doc(idShop).get().then((value) {
       if (value.exists) {
         alias = value.data()!.values.elementAt(4).toString();
       }
@@ -321,59 +310,57 @@ class AuthService extends ChangeNotifier {
         .collection('users')
         .doc(_auth.currentUser!.uid)
         .update({
-      "email": email,
-      "alias": alias,
-      "address": address,
-      "name": name,
-      "lastname": lastname,
-    })
+          "email": email,
+          "alias": alias,
+          "address": address,
+          "name": name,
+          "lastname": lastname,
+        })
         .then((value) => {success = true})
         .catchError((onError) {
-      success = false;
-    });
+          success = false;
+        });
     return success;
   }
 
   Future<DocumentReference> insertShop(Shop shop) async {
     String idShop = "";
     await _firestore
-          .collection('shops')
-          .doc()
-          .set(shop.toJson(), SetOptions(merge: true));
+        .collection('shops')
+        .doc()
+        .set(shop.toJson(), SetOptions(merge: true));
 
-
-    var docRef =  await _firestore
+    var docRef = await _firestore
         .collection('shops')
         .where('alias', isEqualTo: shop.alias)
         .get();
 
     docRef.docs.forEach((element) {
-      idShop = "shops/"+element.id;
+      idShop = "shops/" + element.id;
     });
 
     print(idShop);
-      return FirebaseFirestore.instance.doc(idShop);
-    }
+    return FirebaseFirestore.instance.doc(idShop);
+  }
 
-  Future selectEmployees(DocumentReference shop) async {
+  Future<void> selectEmployees(String shop) async {
+    DocumentReference shopData = _firestore.doc(shop);
     _employees = [];
-      var employees = await _firestore
+    var employees = await _firestore
         .collection('users')
-        .where('shop', isEqualTo: shop)
+        .where('shop', isEqualTo: shopData)
         .get();
-      employees.docs.forEach((element) {
-        pb.User nuevo = pb.User.fromJson(element.data());
-        if(!nuevo.administrator) {
-          _employees.add(nuevo);
-          print(nuevo.alias);
-        }
-      });
-    }
+    employees.docs.forEach((element) {
+      pb.User nuevo = pb.User.fromJson(element.data());
+      if (!nuevo.administrator) {
+        _employees.add(nuevo);
+        print(nuevo.alias);
+      }
+    });
+  }
 
   Future deleteEmploye(pb.User user) async {
-   await _firestore
-        .collection('users')
-        .doc(user.user_uid).delete();
+    await _firestore.collection('users').doc(user.user_uid).delete();
     _employees.remove(user);
-    }
+  }
 }

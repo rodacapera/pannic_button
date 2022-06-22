@@ -47,7 +47,7 @@ class User {
   Map<String, dynamic> location;
   int? zipCode;
   bool administrator;
-  DocumentReference shop;
+  String shop;
   String pay;
 
   User copyWith({
@@ -66,7 +66,7 @@ class User {
     required Map<String, dynamic> location,
     int? zipCode,
     required bool administrator,
-    required DocumentReference shop,
+    required String shop,
     required String pay
   }) =>
       User(

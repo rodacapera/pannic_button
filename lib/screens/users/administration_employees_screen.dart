@@ -51,7 +51,7 @@ class BotonFlotante extends StatelessWidget {
     final authService = Provider.of<AuthService>(context);
 
     String alias = authService.userLogged.alias;
-    String shop = authService.userLogged.shop.path;
+    String shop = authService.userLogged.shop;
 
     return SpeedDial(
       child: const Icon(Icons.account_circle, size: 55),
