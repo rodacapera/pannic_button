@@ -349,18 +349,32 @@ class AuthService extends ChangeNotifier {
     var employees = await _firestore
         .collection('users')
         .where('shop', isEqualTo: shopData)
+        .where('pay', isEqualTo: "success")
         .get();
-    employees.docs.forEach((element) {
-      pb.User nuevo = pb.User.fromJson(element.data());
-      if (!nuevo.administrator) {
-        _employees.add(nuevo);
-        print(nuevo.alias);
-      }
-    });
-  }
+        employees.docs.forEach((element) {
+        pb.User nuevo = pb.User.fromJson(element.data());
+        if(!nuevo.administrator) {
+          _employees.add(nuevo);
+          print(nuevo.alias);
+        }
+      });
+    }
 
   Future deleteEmploye(pb.User user) async {
-    await _firestore.collection('users').doc(user.user_uid).delete();
-    _employees.remove(user);
-  }
+    bool success = false;
+    await _firestore
+        .collection('users')
+        .doc(user.user_uid)
+        .update({
+        "pay": "pending",
+      })
+        .then((value) => {
+          success = true,
+          _employees.remove(user)
+    })
+        .catchError((onError) {
+      success = false;
+    });
+    return success;
+    }
 }

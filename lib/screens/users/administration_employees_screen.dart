@@ -64,13 +64,6 @@ class BotonFlotante extends StatelessWidget {
             Navigator.pushNamed(context, 'qr_code', arguments:{'link' : route});
           },
         ),
-        SpeedDialChild(
-          child: const Icon(Icons.person_add),
-          label: 'Registrar',
-          onTap: () {
-            Navigator.pushNamed(context, 'signup_step_one');
-          },
-        )
       ],
       backgroundColor: const Color.fromARGB(255, 177, 19, 16),
     );
