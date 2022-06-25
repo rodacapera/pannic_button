@@ -9,14 +9,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:panic_button_app/blocs/location/location_bloc.dart';
 import 'package:panic_button_app/themes/map_style.dart';
 
-import '../../themes/themes.dart';
-import '../blocs.dart';
-
 part 'map_event.dart';
 part 'map_state.dart';
 
 class MapBloc extends Bloc<MapEvent, MapState> {
-  Set<Marker> _markers = {};
 
   final LocationBloc locationBloc;
 
@@ -86,7 +82,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       UpdateNotificationMarkerEvent event, Emitter<MapState> emit) {
     myMarkersParsed = <Marker>{};
     if (event.notifications.docs.isNotEmpty) {
-      event.notifications.docs.forEach((notification) {
+      for (var notification in event.notifications.docs) {
         myMarkersParsed!.add(Marker(
             markerId: MarkerId(notification.id),
             position: LatLng(notification["my_location"]["lat"],
@@ -95,7 +91,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             infoWindow: const InfoWindow(
               title: "Panic Position",
             )));
-      });
+      }
     }
 
     emit(state.copyWith(markers: myMarkersParsed));

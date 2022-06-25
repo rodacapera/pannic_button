@@ -344,11 +344,10 @@ class AuthService extends ChangeNotifier {
   }
 
   Future<void> selectEmployees(String shop) async {
-    DocumentReference shopData = _firestore.doc(shop);
     _employees = [];
     var employees = await _firestore
         .collection('users')
-        .where('shop', isEqualTo: shopData)
+        .where('shop', isEqualTo: shop)
         .where('pay', isEqualTo: "success")
         .get();
         employees.docs.forEach((element) {

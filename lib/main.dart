@@ -16,18 +16,12 @@ import 'package:panic_button_app/screens/signup/signup_step_two_screen.dart';
 import 'package:panic_button_app/screens/users/administration_employees_screen.dart';
 import 'package:panic_button_app/screens/users/edit_user_profile_screen.dart';
 import 'package:panic_button_app/screens/users/qr_code.dart';
-import 'package:panic_button_app/screens/users/register_user_employee_screen.dart';
-import 'package:panic_button_app/services/firebase_dynamic_link.dart';
 import 'package:panic_button_app/services/push_notifications_service.dart';
-import 'package:panic_button_app/widgets/qr_scan.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'firebase_options.dart';
-
 import 'package:panic_button_app/screens/screens.dart';
 import 'package:panic_button_app/services/services.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/blocs.dart';
 import 'screens/onboarding/gps_permission.dart';
@@ -84,7 +78,7 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     AwesomeNotifications().isNotificationAllowed().then(
       (isAllowed) {
         if (!isAllowed) {
@@ -144,7 +138,7 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -219,7 +213,6 @@ class MyApp extends StatelessWidget {
 
         //Users Routes
         'edit_user_profile': (_) => const EditUserProfileScreen(),
-        'qr_scan': (_) =>  QRScanPage(),
         'qr_code': (_) => const QRCode(),
         'administration_employees_screen': (_) =>
             const AdministrationEmployeeScreen()
