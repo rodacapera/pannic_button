@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -13,6 +13,7 @@ import 'package:panic_button_app/providers/login_form_provider.dart';
 import 'package:panic_button_app/providers/signup_form_provider.dart';
 import 'package:panic_button_app/services/services.dart';
 import 'package:provider/provider.dart';
+import 'package:barcode_scan2/barcode_scan2.dart';
 
 import 'package:panic_button_app/ui/input_decorations.dart';
 import 'package:panic_button_app/widgets/widgets.dart';
@@ -179,15 +180,37 @@ class _LoginForm extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 177, 19, 16),
+                  primary: const Color.fromARGB(255, 177, 19, 16),
                   onPrimary: Colors.white
               ),
-              icon: Icon(Icons.camera_alt),
-              label: Text('Scan'),
+              icon: const Icon(Icons.camera_alt),
+              label: const Text('Scan'),
               onPressed: () async {
+                final _possibleFormats = BarcodeFormat.values.toList()
+                  ..removeWhere((e) => e == BarcodeFormat.unknown);
+
+                List<BarcodeFormat> selectedFormats = [..._possibleFormats];
                 try {
-                  qrCode = await FlutterBarcodeScanner.scanBarcode(
-                      "#ff6666", "Cancel", true, ScanMode.QR);
+                  // qrCode = await BarcodeScanner.scan();
+                  final result = await BarcodeScanner.scan(
+                    options: ScanOptions(
+                      strings: {
+                        'cancel': 'Cancel',
+                        'flash_on': 'Flash on',
+                        'flash_off': 'Flash off',
+                      },
+                      restrictFormat: selectedFormats,
+                      useCamera: -1,
+                      autoEnableFlash: false,
+                      android: const AndroidOptions(
+                        aspectTolerance: 0.00,
+                        useAutoFocus: true,
+                      ),
+                    ),
+                  );
+                  print('result>> $result');
+                  // qrCode = await FlutterBarcodeScanner.scanBarcode(
+                  //     "#ff6666", "Cancel", true, ScanMode.QR);
                 } on PlatformException {
                   qrCode = "Fallo en la lectura del codigo Qr";
                 }
