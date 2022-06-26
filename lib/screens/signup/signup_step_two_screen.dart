@@ -261,7 +261,7 @@ class _SignUpStepTwoForm extends StatelessWidget {
                         lastname: signUpForm.lastName,
                         zipCode: int.tryParse(signUpForm.zipCode),
                         location: signUpForm.location,
-                        shop: signUpForm.shop!,
+                        shop: signUpForm.shop!.path,
                         pay: signUpForm.pay
                     );
 

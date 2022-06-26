@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+<<<<<<< HEAD
 // import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+=======
+>>>>>>> 9ebc319a898f526d525da33e0ceca2383dc8e42c
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -13,11 +17,14 @@ import 'package:panic_button_app/providers/login_form_provider.dart';
 import 'package:panic_button_app/providers/signup_form_provider.dart';
 import 'package:panic_button_app/services/services.dart';
 import 'package:provider/provider.dart';
+<<<<<<< HEAD
 import 'package:barcode_scan2/barcode_scan2.dart';
 
+=======
+>>>>>>> 9ebc319a898f526d525da33e0ceca2383dc8e42c
 import 'package:panic_button_app/ui/input_decorations.dart';
 import 'package:panic_button_app/widgets/widgets.dart';
-
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../blocs/gps/gps_bloc.dart';
 import '../services/firebase_dynamic_link.dart';
 
@@ -99,6 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 class _LoginForm extends StatelessWidget {
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  Barcode? result;
+  QRViewController? controller;
+
   @override
   Widget build(BuildContext context) {
     final loginForm = Provider.of<LoginFormProvider>(context);
@@ -180,17 +191,25 @@ class _LoginForm extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
+<<<<<<< HEAD
                   primary: const Color.fromARGB(255, 177, 19, 16),
                   onPrimary: Colors.white
               ),
               icon: const Icon(Icons.camera_alt),
               label: const Text('Scan'),
+=======
+                  primary: Color.fromARGB(255, 177, 19, 16),
+                  onPrimary: Colors.white),
+              icon: Icon(Icons.camera_alt),
+              label: Text('Scan'),
+>>>>>>> 9ebc319a898f526d525da33e0ceca2383dc8e42c
               onPressed: () async {
                 final _possibleFormats = BarcodeFormat.values.toList()
                   ..removeWhere((e) => e == BarcodeFormat.unknown);
 
                 List<BarcodeFormat> selectedFormats = [..._possibleFormats];
                 try {
+<<<<<<< HEAD
                   // qrCode = await BarcodeScanner.scan();
                   final result = await BarcodeScanner.scan(
                     options: ScanOptions(
@@ -216,19 +235,24 @@ class _LoginForm extends StatelessWidget {
                 }
 
                 var link = 'signup_step_one';
+=======
+                  var link = 'signup_step_one';
+>>>>>>> 9ebc319a898f526d525da33e0ceca2383dc8e42c
 
-                var parts = qrCode.split('%2F');
+                  var parts = qrCode.split('%2F');
 
-                var idShop = 'shops/'+ parts[parts.length-1];
+                  var idShop = 'shops/' + parts[parts.length - 1];
 
-                print(idShop);
+                  signUpForm.shop = FirebaseFirestore.instance.doc(idShop);
 
-                signUpForm.shop = FirebaseFirestore.instance.doc(idShop);
+                  signUpForm.alias =
+                      await authService.searchShop(parts[parts.length - 1]);
 
-                signUpForm.alias = await authService.searchShop(parts[parts.length-1]);
-
-                Navigator.pushNamed(context, link);
-                },
+                  Navigator.pushNamed(context, link);
+                } on PlatformException {
+                  qrCode = "Fallo en la lectura del codigo Qr";
+                }
+              },
             ),
           ],
         ),

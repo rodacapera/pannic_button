@@ -47,7 +47,7 @@ Widget _buildMenuItems(BuildContext context) {
   final authService = Provider.of<AuthService>(context);
 
   String alias = authService.userLogged.alias;
-  String shop = authService.userLogged.shop.path;
+  String shop = authService.userLogged.shop;
   return Column(
     children: [
       // ListTile(
