@@ -238,8 +238,6 @@ class _SignUpStepTwoForm extends StatelessWidget {
                       signUpForm.administrator = false;
                     }
 
-                    print(signUpForm.shop);
-
                     final user = User(
                         administrator: signUpForm.administrator,
                         phone: signUpForm.phone,

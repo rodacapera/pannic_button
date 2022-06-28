@@ -159,6 +159,7 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => MercadoPagoService()),
         ChangeNotifierProvider(
           create: (_) => SignUpFormProvider(),
         ),

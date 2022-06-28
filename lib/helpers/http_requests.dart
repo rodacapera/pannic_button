@@ -9,14 +9,16 @@ class HttpService {
     required dynamic body,
     required Map<String, dynamic> params,
   }) async {
-    Uri url = Uri.https(api, endpoint, params);
+    Uri url = Uri.http(api, endpoint, params);
+    print(url);
+    print(body);
     return await http.post(url,
         headers: {"Content-Type": "application/json"}, body: body);
   }
 
   Future<http.Response> get(
       {required String endpoint, required Map<String, String> params}) async {
-    Uri url = Uri.https(api, endpoint, params);
+    Uri url = Uri.http(api, endpoint, params);
     return await http.get(url);
   }
 }

@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -12,6 +11,7 @@ import 'package:panic_button_app/helpers/validators.dart';
 import 'package:panic_button_app/providers/login_form_provider.dart';
 import 'package:panic_button_app/providers/signup_form_provider.dart';
 import 'package:panic_button_app/services/services.dart';
+
 import 'package:provider/provider.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
 
@@ -104,6 +104,7 @@ class _LoginForm extends StatelessWidget {
     final loginForm = Provider.of<LoginFormProvider>(context);
     final signUpForm = Provider.of<SignUpFormProvider>(context);
     final authService = Provider.of<AuthService>(context);
+    
 
     String qrCode = 'Unknown';
 
@@ -190,9 +191,7 @@ class _LoginForm extends StatelessWidget {
                   ..removeWhere((e) => e == BarcodeFormat.unknown);
 
                 List<BarcodeFormat> selectedFormats = [..._possibleFormats];
-                try {
-                  // qrCode = await BarcodeScanner.scan();
-                  final result = await BarcodeScanner.scan(
+                final qrCode = await BarcodeScanner.scan(
                     options: ScanOptions(
                       strings: {
                         'cancel': 'Cancel',
@@ -208,26 +207,28 @@ class _LoginForm extends StatelessWidget {
                       ),
                     ),
                   );
-                  print('result>> $result');
+                print('result>> ${qrCode.type}');
                   // qrCode = await FlutterBarcodeScanner.scanBarcode(
-                  //     "#ff6666", "Cancel", true, ScanMode.QR);
-                } on PlatformException {
-                  qrCode = "Fallo en la lectura del codigo Qr";
+                  //  
+                if(qrCode.type.toString() != 'Cancelled'){
+                  var link = 'signup_step_one';
+
+                  var parts = qrCode.rawContent.split('%2F');
+                  print('parts $parts');
+
+                  var idShop = 'shops/'+ parts[parts.length-1];
+
+                  print(idShop);
+
+                  signUpForm.shop = FirebaseFirestore.instance.doc(idShop);
+
+                  signUpForm.alias = await authService.searchShop(parts[parts.length-1]);
+
+                  Navigator.pushNamed(context, link);
+                } else {
+                  print('fail');
                 }
-
-                var link = 'signup_step_one';
-
-                var parts = qrCode.split('%2F');
-
-                var idShop = 'shops/'+ parts[parts.length-1];
-
-                print(idShop);
-
-                signUpForm.shop = FirebaseFirestore.instance.doc(idShop);
-
-                signUpForm.alias = await authService.searchShop(parts[parts.length-1]);
-
-                Navigator.pushNamed(context, link);
+                
                 },
             ),
           ],

@@ -1,10 +1,6 @@
-import 'package:panic_button_app/services/auth_service.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:cool_alert/cool_alert.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/signup_form_provider.dart';
 
 class FirebaseDynamicLinkService {
 

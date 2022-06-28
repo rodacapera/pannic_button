@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,13 +11,11 @@ import 'package:panic_button_app/constants/texts.dart';
 import 'package:panic_button_app/models/panic.dart';
 import 'package:panic_button_app/models/user.dart';
 import 'package:panic_button_app/services/auth_service.dart';
-import 'package:panic_button_app/services/notifications_service.dart';
 import 'package:panic_button_app/services/panic_service.dart';
 import 'package:panic_button_app/widgets/drawer_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../blocs/gps/gps_bloc.dart';
-import '../services/firebase_dynamic_link.dart';
 import '../widgets/panic_button.dart';
 
 class HomeScreen extends StatefulWidget {

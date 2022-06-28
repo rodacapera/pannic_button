@@ -29,7 +29,7 @@ abstract class TextConstants {
   static String noTitle = 'No title';
   static String noBody = 'No body';
   static String verificationCode = 'Código de verificación';
-  static String testAvatar = 'test.jgp';
+  static String testAvatar = 'test.jpg';
   static String myBusiness = 'Mi comercio';
   static String nameBusiness = 'Nombre del establecimiento';
   static String testAddress = 'CL 45D N 4 32';
@@ -92,4 +92,5 @@ abstract class TextConstants {
   static String userRegister = 'Registro De Usuarios';
   static String generatedCode = 'Código generado con éxito';
   static String descriptionScanQR = 'Por favor escanea el código para registrarte en nuestro establecimiento.';
+  static String failPayment = 'El pago no ha sido procesado con éxito, por favor intenta de nuevo.';
 }

@@ -1,16 +1,13 @@
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:barcode_scan2/barcode_scan2.dart';
 
 import '../constants/texts.dart';
 import '../providers/signup_form_provider.dart';
-import '../services/auth_service.dart';
 
 class QRScanPage extends StatefulWidget {
   @override

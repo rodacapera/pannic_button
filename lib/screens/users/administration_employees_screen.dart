@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../../services/auth_service.dart';
 import '../../services/firebase_dynamic_link.dart';
-import '../../widgets/auth_background.dart';
 import '../../widgets/card_users_widget.dart';
 
 class AdministrationEmployeeScreen extends StatefulWidget {

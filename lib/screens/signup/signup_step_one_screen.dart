@@ -9,8 +9,10 @@ import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:panic_button_app/constants/texts.dart';
 import 'package:panic_button_app/helpers/validators.dart';
+import 'package:panic_button_app/models/payload_mp.dart';
 import 'package:panic_button_app/providers/signup_form_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:mercado_pago_mobile_checkout/mercado_pago_mobile_checkout.dart';
 
 
 import 'package:panic_button_app/services/services.dart';
@@ -81,6 +83,7 @@ class _SignUpStepOneForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final signUpForm = Provider.of<SignUpFormProvider>(context);
     final authService = Provider.of<AuthService>(context);
+    final MercadoPagoService mercadopago = Provider.of<MercadoPagoService>(context);
 
     return Form(
       key: signUpForm.formKeyOne,
@@ -148,50 +151,77 @@ class _SignUpStepOneForm extends StatelessWidget {
                         });
                         return;
                       }
+                      PayloadMp payload = PayloadMp(
+                        title: "Pago de la licencia",
+                        description: "Licencia",
+                        quantity: 1,
+                        unit_price: 60,
+                        email: "rodacapera@gmail.com",
+                        app: "moil"
+                      );
+                      final product = await mercadopago.getProductReferenceId(payload);
+                      print(product["result"]["id"]);
+                      // final result = product;
+                      PaymentResult result =
+                          await MercadoPagoMobileCheckout.startCheckout(
+                              'TEST-b697efa6-ef2d-483e-9c20-aa7e8b56a0f2',
+                              '${product["result"]["id"]}');
+                      if (result.result == "done") {
+                        print('done');
+                        await authService.verifyIsRegistered(signUpForm.phone);
 
-                      await authService.verifyIsRegistered(signUpForm.phone);
+                        if (authService.isRegistered == true) {
+                          CoolAlert.show(
+                            context: context,
+                            type: CoolAlertType.error,
+                            title: TextConstants.ops,
+                            text: TextConstants.existingAccount,
+                            loopAnimation: false,
+                          );
+                          signUpForm.isLoading = false;
 
-                      if (authService.isRegistered == true) {
-                        CoolAlert.show(
-                          context: context,
-                          type: CoolAlertType.error,
-                          title: TextConstants.ops,
-                          text: TextConstants.existingAccount,
-                          loopAnimation: false,
-                        );
+                          return;
+                        }
+
+                        try {
+                          List<Placemark> address =
+                              await placemarkFromCoordinates(
+                                  signUpForm.location["lat"],
+                                  signUpForm.location["lng"]);
+                          signUpForm.countryCode =
+                              address.first.isoCountryCode!;
+                          signUpForm.zipCode = address.first.postalCode ?? '';
+
+                          /*final authService = Provider.of<AuthService>(context);*/
+
+                          CoolAlert.show(
+                              context: context,
+                              type: CoolAlertType.success,
+                              title: "Exito",
+                              loopAnimation: false);
+                          Navigator.pushNamed(context, 'signup_step_two');
+
+                        } catch (e) {
+                          CoolAlert.show(
+                            context: context,
+                            type: CoolAlertType.error,
+                            title: TextConstants.ops,
+                            text: e.toString(),
+                            loopAnimation: false,
+                          );
+                        }
                         signUpForm.isLoading = false;
-
-                        return;
-                      }
-
-                      try {
-                        List<Placemark> address =
-                            await placemarkFromCoordinates(
-                                signUpForm.location["lat"],
-                                signUpForm.location["lng"]);
-                        signUpForm.countryCode =
-                            address.first.isoCountryCode!;
-                        signUpForm.zipCode = address.first.postalCode ?? '';
-
-                        /*final authService = Provider.of<AuthService>(context);*/
-
+                      } else {
+                        print('failed');
+                        signUpForm.isLoading = false;
                         CoolAlert.show(
                             context: context,
-                            type: CoolAlertType.success,
-                            title: "Exito",
-                            loopAnimation: false);
-                        Navigator.pushNamed(context, 'signup_step_two');
-
-                      } catch (e) {
-                        CoolAlert.show(
-                          context: context,
-                          type: CoolAlertType.error,
-                          title: TextConstants.ops,
-                          text: e.toString(),
-                          loopAnimation: false,
-                        );
+                            type: CoolAlertType.error,
+                            title: TextConstants.ops,
+                            text: TextConstants.failPayment,
+                            loopAnimation: false,
+                          );
                       }
-                      signUpForm.isLoading = false;
                     }
                   : null)
         ],
