@@ -66,7 +66,6 @@ class _QRScanPageState extends State<QRScanPage> {
                       ),
                     ),
                   );
-                  print('result>> $result');
                   // qrCode = await FlutterBarcodeScanner.scanBarcode(
                   //     "#ff6666", "Cancel", true, ScanMode.QR);
                 } on PlatformException {
@@ -89,10 +88,6 @@ class _QRScanPageState extends State<QRScanPage> {
                   signUpForm.alias = alias;
 
                   //_prefs.setString("idUser", json.encode(idUser));
-
-                  print("ID DEL DOCUMENTO DE LA SHOP = " + alias);
-                  print("ID DEL DOCUMENTO DE LA SHOP = " + signUpForm.shop.toString());
-
 
                   Navigator.pushNamed(context, link);
                 });

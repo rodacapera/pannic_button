@@ -197,7 +197,6 @@ class _MapViewState extends State<MapView> {
         //               document.data()! as Map<String, dynamic>;
 
         //         });
-        //         print(_markers);
         //       }
 
         //     });

@@ -10,8 +10,6 @@ class HttpService {
     required Map<String, dynamic> params,
   }) async {
     Uri url = Uri.http(api, endpoint, params);
-    print(url);
-    print(body);
     return await http.post(url,
         headers: {"Content-Type": "application/json"}, body: body);
   }

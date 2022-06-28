@@ -124,8 +124,6 @@ class _SignUpStepOneForm extends StatelessWidget {
                   style: const TextStyle(color: Colors.white),
                 )),
             onPressed: () async {
-
-              print(idUser);
               //authService.insertEmployee(idUser, signUpForm.phone, signUpForm.name, signUpForm.lastName);
             },
           )

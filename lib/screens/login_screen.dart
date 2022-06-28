@@ -207,29 +207,22 @@ class _LoginForm extends StatelessWidget {
                       ),
                     ),
                   );
-                print('result>> ${qrCode.type}');
                   // qrCode = await FlutterBarcodeScanner.scanBarcode(
                   //  
                 if(qrCode.type.toString() != 'Cancelled'){
                   var link = 'signup_step_one';
 
                   var parts = qrCode.rawContent.split('%2F');
-                  print('parts $parts');
 
                   var idShop = 'shops/'+ parts[parts.length-1];
-
-                  print(idShop);
 
                   signUpForm.shop = FirebaseFirestore.instance.doc(idShop);
 
                   signUpForm.alias = await authService.searchShop(parts[parts.length-1]);
 
                   Navigator.pushNamed(context, link);
-                } else {
-                  print('fail');
                 }
-                
-                },
+              },
             ),
           ],
         ),

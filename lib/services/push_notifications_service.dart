@@ -66,7 +66,6 @@ class PushNotificationService {
       badge: true,
       sound: true
     );
-    // print('User push notification status ${settings.authorizationStatus}');
   }
 
   static closeStreams() {

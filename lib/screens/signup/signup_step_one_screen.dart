@@ -155,74 +155,77 @@ class _SignUpStepOneForm extends StatelessWidget {
                         title: "Pago de la licencia",
                         description: "Licencia",
                         quantity: 1,
-                        unit_price: 60,
+                        unit_price: 1,
                         email: "rodacapera@gmail.com",
-                        app: "moil"
+                        app: "bodega"
                       );
-                      final product = await mercadopago.getProductReferenceId(payload);
-                      print(product["result"]["id"]);
-                      // final result = product;
-                      PaymentResult result =
-                          await MercadoPagoMobileCheckout.startCheckout(
-                              'TEST-b697efa6-ef2d-483e-9c20-aa7e8b56a0f2',
-                              '${product["result"]["id"]}');
-                      if (result.result == "done") {
-                        print('done');
-                        await authService.verifyIsRegistered(signUpForm.phone);
-
-                        if (authService.isRegistered == true) {
-                          CoolAlert.show(
-                            context: context,
-                            type: CoolAlertType.error,
-                            title: TextConstants.ops,
-                            text: TextConstants.existingAccount,
-                            loopAnimation: false,
-                          );
-                          signUpForm.isLoading = false;
-
-                          return;
-                        }
-
-                        try {
-                          List<Placemark> address =
-                              await placemarkFromCoordinates(
-                                  signUpForm.location["lat"],
-                                  signUpForm.location["lng"]);
-                          signUpForm.countryCode =
-                              address.first.isoCountryCode!;
-                          signUpForm.zipCode = address.first.postalCode ?? '';
-
-                          /*final authService = Provider.of<AuthService>(context);*/
-
-                          CoolAlert.show(
-                              context: context,
-                              type: CoolAlertType.success,
-                              title: "Exito",
-                              loopAnimation: false);
-                          Navigator.pushNamed(context, 'signup_step_two');
-
-                        } catch (e) {
-                          CoolAlert.show(
-                            context: context,
-                            type: CoolAlertType.error,
-                            title: TextConstants.ops,
-                            text: e.toString(),
-                            loopAnimation: false,
-                          );
-                        }
+                      if(signUpForm.shop != null){
+                        print('es un registro de empleado deja registrar sin cobro');
                         signUpForm.isLoading = false;
+                        Navigator.pushNamed(context, 'signup_step_two');
                       } else {
-                        print('failed');
-                        signUpForm.isLoading = false;
-                        CoolAlert.show(
+                        print('es un registro de empresa, cobra antes de completar el registro');
+                        final product = await mercadopago.getProductReferenceId(payload);
+                        PaymentResult result =
+                            await MercadoPagoMobileCheckout.startCheckout(
+                                'TEST-a8931263-ca44-48ee-974e-73a02834d6cc',
+                                '${product["result"]["id"]}');
+                        if (result.result == "done") {
+                          await authService.verifyIsRegistered(signUpForm.phone);
+
+                          if (authService.isRegistered == true) {
+                            CoolAlert.show(
+                              context: context,
+                              type: CoolAlertType.error,
+                              title: TextConstants.ops,
+                              text: TextConstants.existingAccount,
+                              loopAnimation: false,
+                            );
+                            signUpForm.isLoading = false;
+
+                            return;
+                          }
+
+                          try {
+                            List<Placemark> address =
+                                await placemarkFromCoordinates(
+                                    signUpForm.location["lat"],
+                                    signUpForm.location["lng"]);
+                            signUpForm.countryCode =
+                                address.first.isoCountryCode!;
+                            signUpForm.zipCode = address.first.postalCode ?? '';
+
+                            /*final authService = Provider.of<AuthService>(context);*/
+
+                            CoolAlert.show(
+                                context: context,
+                                type: CoolAlertType.success,
+                                title: "Exito",
+                                loopAnimation: false);
+                            Navigator.pushNamed(context, 'signup_step_two');
+
+                          } catch (e) {
+                            CoolAlert.show(
+                              context: context,
+                              type: CoolAlertType.error,
+                              title: TextConstants.ops,
+                              text: e.toString(),
+                              loopAnimation: false,
+                            );
+                          }
+                          signUpForm.isLoading = false;
+                        } else {
+                          signUpForm.isLoading = false;
+                          CoolAlert.show(
                             context: context,
                             type: CoolAlertType.error,
                             title: TextConstants.ops,
                             text: TextConstants.failPayment,
                             loopAnimation: false,
                           );
+                        }
                       }
-                    }
+                                          }
                   : null)
         ],
       ),

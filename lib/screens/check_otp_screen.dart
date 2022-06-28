@@ -83,7 +83,6 @@ class _otpVerificationForm extends StatelessWidget {
       },
       //runs when every textfield is filled
       onSubmit: (String verificationCode) async {
-        print('user send >> $user');
         if (user != null) {
           await authService.verifyOtp(verificationCode, user);
         } else {

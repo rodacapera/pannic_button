@@ -148,9 +148,7 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver {
       FlutterAppBadger.updateBadgeCount(1);
       Timer.periodic(const Duration(seconds: 5), (timer) {
         FlutterAppBadger.removeBadge();
-        // print('remove');
       });
-      // print('resummmeeennn');
     }
   }
 

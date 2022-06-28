@@ -26,7 +26,6 @@ class FirebaseDynamicLinkService {
 
     _linkMessage = dynamicLink.toString();
     print("Dynamic Link -> $_linkMessage");
-
     return _linkMessage;
   }
 

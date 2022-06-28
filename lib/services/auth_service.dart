@@ -226,13 +226,12 @@ class AuthService extends ChangeNotifier {
       Future<void> verifyPhoneNumber = _auth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (phoneAuthCredential) {
-          print("Verification Completed");
+          // print("Verification Completed");
         },
         verificationFailed: (FirebaseAuthException error) {
           print(error);
         },
         codeSent: (verificationId, [forceResendingToken]) {
-          print(verificationId);
           verificationCode = verificationId;
         },
         codeAutoRetrievalTimeout: (String verificationId) {
@@ -354,7 +353,6 @@ class AuthService extends ChangeNotifier {
         pb.User nuevo = pb.User.fromJson(element.data());
         if(!nuevo.administrator) {
           _employees.add(nuevo);
-          print(nuevo.alias);
         }
       });
     }
