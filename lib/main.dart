@@ -6,17 +6,20 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:panic_button_app/blocs/location/location_bloc.dart';
 import 'package:panic_button_app/constants/texts.dart';
 import 'package:panic_button_app/models/user.dart';
 import 'package:panic_button_app/providers/signup_form_provider.dart';
 import 'package:panic_button_app/screens/notification_screen.dart';
+import 'package:panic_button_app/screens/signup/payment_screen.dart';
 import 'package:panic_button_app/screens/signup/signup_step_three.dart';
 import 'package:panic_button_app/screens/signup/signup_step_two_screen.dart';
 import 'package:panic_button_app/screens/users/administration_employees_screen.dart';
 import 'package:panic_button_app/screens/users/edit_user_profile_screen.dart';
 import 'package:panic_button_app/screens/users/qr_code.dart';
 import 'package:panic_button_app/services/push_notifications_service.dart';
+import 'package:panic_button_app/services/stripe_payment_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
@@ -32,6 +35,8 @@ late final userLogged;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences _prefs = await SharedPreferences.getInstance();
+  Stripe.publishableKey =
+      "pk_test_51LIEQIJSA4gqgXTSrnN4s491dRmz2GBUZ7JwHDOfZbVt3qmXFtnWYvuezYM3IoZ22jcqFZUZLgpf6xpK36hLphy700Ar36mAfL";
   GPSPermissionGranted = _prefs.getBool("GPSPermisionGranted");
   userLogged = _prefs.get('userLogged');
 
@@ -166,10 +171,10 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver {
         ChangeNotifierProvider(
           create: (_) => NotificationsService(),
           lazy: false,
-        )
+        ),
+        ChangeNotifierProvider(create: (_) => PaymentService())
       ],
       child: const MyApp(),
-
     );
   }
 }
@@ -183,7 +188,6 @@ class MyApp extends StatelessWidget {
 
     if (userLogged != null && userLogged.runtimeType != bool) {
       authService.userLoggedUnNotified = User.fromJson(json.decode(userLogged));
-
     }
 
     return MaterialApp(
@@ -214,7 +218,8 @@ class MyApp extends StatelessWidget {
         'edit_user_profile': (_) => const EditUserProfileScreen(),
         'qr_code': (_) => const QRCode(),
         'administration_employees_screen': (_) =>
-            const AdministrationEmployeeScreen()
+            const AdministrationEmployeeScreen(),
+        'payment_screen': (_) => const PaymentScreen()
       },
       theme: ThemeData.light().copyWith(
           scaffoldBackgroundColor: Colors.grey[300],
