@@ -12,7 +12,6 @@ import 'package:panic_button_app/constants/texts.dart';
 import 'package:panic_button_app/models/user.dart';
 import 'package:panic_button_app/providers/signup_form_provider.dart';
 import 'package:panic_button_app/screens/notification_screen.dart';
-import 'package:panic_button_app/screens/signup/payment_screen.dart';
 import 'package:panic_button_app/screens/signup/signup_step_three.dart';
 import 'package:panic_button_app/screens/signup/signup_step_two_screen.dart';
 import 'package:panic_button_app/screens/users/administration_employees_screen.dart';
@@ -218,8 +217,7 @@ class MyApp extends StatelessWidget {
         'edit_user_profile': (_) => const EditUserProfileScreen(),
         'qr_code': (_) => const QRCode(),
         'administration_employees_screen': (_) =>
-            const AdministrationEmployeeScreen(),
-        'payment_screen': (_) => const PaymentScreen()
+            const AdministrationEmployeeScreen()
       },
       theme: ThemeData.light().copyWith(
           scaffoldBackgroundColor: Colors.grey[300],

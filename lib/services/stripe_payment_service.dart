@@ -2,13 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:panic_button_app/models/models.dart';
 import 'package:http/http.dart' as http;
 
 class PaymentService extends ChangeNotifier {
   Map<String, dynamic>? paymentIntentData;
 
-  Future<void> makePayment(
+  Future makePayment(
       {required String amount, required String currency}) async {
     try {
       paymentIntentData = await createPaymentIntent(amount, currency);
@@ -24,7 +23,8 @@ class PaymentService extends ChangeNotifier {
           paymentIntentClientSecret: paymentIntentData!['client_secret'],
           customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
         ));
-        await displayPaymentSheet();
+        final result = await displayPaymentSheet();
+        return result;
       }
     } catch (e, s) {
       print('exception:$e$s');
@@ -34,7 +34,8 @@ class PaymentService extends ChangeNotifier {
   displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet();
-      print('Payment Successful');
+      return 'complete';
+      
     } on Exception catch (e) {
       if (e is StripeException) {
         print(
@@ -42,8 +43,10 @@ class PaymentService extends ChangeNotifier {
       } else {
         print("Notifica el error a tu proveedor: Unforeseen error: ${e}");
       }
+      return 'incomplete';
     } catch (e) {
       print("Notifica el error a tu proveedor: exception:$e");
+      return 'incomplete';
     }
   }
 

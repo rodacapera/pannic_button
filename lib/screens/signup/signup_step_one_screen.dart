@@ -12,6 +12,8 @@ import 'package:panic_button_app/helpers/validators.dart';
 import 'package:panic_button_app/models/payload_mp.dart';
 import 'package:panic_button_app/providers/signup_form_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:panic_button_app/services/stripe_payment_service.dart';
 /* import 'package:mercado_pago_mobile_checkout/mercado_pago_mobile_checkout.dart';*/
 
 import 'package:panic_button_app/services/services.dart';
@@ -86,8 +88,7 @@ class _SignUpStepOneForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final signUpForm = Provider.of<SignUpFormProvider>(context);
     final authService = Provider.of<AuthService>(context);
-    final MercadoPagoService mercadopago =
-        Provider.of<MercadoPagoService>(context);
+    final paymentService = Provider.of<PaymentService>(context, listen: false);
 
     return Form(
       key: signUpForm.formKeyOne,
@@ -158,29 +159,13 @@ class _SignUpStepOneForm extends StatelessWidget {
                         });
                         return;
                       }
-                      PayloadMp payload = PayloadMp(
-                          title: "Pago de la licencia",
-                          description: "Licencia",
-                          quantity: 1,
-                          unit_price: 1,
-                          email: "rodacapera@gmail.com",
-                          app: "bodega");
                       if (signUpForm.shop != null) {
-                        print(
-                            'es un registro de empleado deja registrar sin cobro');
                         signUpForm.isLoading = false;
                         Navigator.pushNamed(context, 'signup_step_two');
                       } else {
-                        print(
-                            'es un registro de empresa, cobra antes de completar el registro');
-                        // final product = await mercadopago.getProductReferenceId(payload);
-                        // PaymentResult result =
-                        //     await MercadoPagoMobileCheckout.startCheckout(
-                        //         'TEST-a8931263-ca44-48ee-974e-73a02834d6cc',
-                        //         '${product["result"]["id"]}');
-                        Navigator.pushNamed(context, 'payment_screen');
-
-                        if (true) {
+                       String result = await paymentService.makePayment(
+                          amount: "50", currency: "USD");
+                        if (result == 'complete') {
                           await authService
                               .verifyIsRegistered(signUpForm.phone);
 
