@@ -14,7 +14,6 @@ import 'package:panic_button_app/providers/signup_form_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:panic_button_app/services/stripe_payment_service.dart';
-/* import 'package:mercado_pago_mobile_checkout/mercado_pago_mobile_checkout.dart';*/
 
 import 'package:panic_button_app/services/services.dart';
 
@@ -164,7 +163,8 @@ class _SignUpStepOneForm extends StatelessWidget {
                         Navigator.pushNamed(context, 'signup_step_two');
                       } else {
                        String result = await paymentService.makePayment(
-                          amount: "50", currency: "USD");
+                          amount: "1", currency: "USD");
+                        print(result);
                         if (result == 'complete') {
                           await authService
                               .verifyIsRegistered(signUpForm.phone);
