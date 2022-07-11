@@ -36,6 +36,8 @@ void main() async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   Stripe.publishableKey =
       "pk_test_51LIEQIJSA4gqgXTSrnN4s491dRmz2GBUZ7JwHDOfZbVt3qmXFtnWYvuezYM3IoZ22jcqFZUZLgpf6xpK36hLphy700Ar36mAfL";
+  Stripe.merchantIdentifier = 'PannicButton';
+  await Stripe.instance.applySettings();
   GPSPermissionGranted = _prefs.getBool("GPSPermisionGranted");
   userLogged = _prefs.get('userLogged');
 

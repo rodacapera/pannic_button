@@ -19,10 +19,11 @@ class PaymentService extends ChangeNotifier {
           testEnv: true,
           merchantCountryCode: 'US',
           merchantDisplayName: 'Prospects',
-          customerId: paymentIntentData!['customer'],
+          customerId: paymentIntentData!['customer'] ?? 'customer',
           paymentIntentClientSecret: paymentIntentData!['client_secret'],
           customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
         ));
+        
         final result = await displayPaymentSheet();
         return result;
       }
@@ -56,7 +57,7 @@ class PaymentService extends ChangeNotifier {
       Map<String, dynamic> body = {
         'amount': calculateAmount(amount),
         'currency': currency,
-        'payment_method_types[]': 'card'
+        'payment_method_types[]': 'card',
       };
       var response = await http.post(
           Uri.parse('https://api.stripe.com/v1/payment_intents'),
