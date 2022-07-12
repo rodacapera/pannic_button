@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class FirebaseDynamicLinkService {
 
-  static Future<String> CreateDynamicLink(String alias, String shop) async {
+  static Future<String> CreateDynamicLink(String alias, String shop, date) async {
 
     String _linkMessage;
 
@@ -14,7 +14,7 @@ class FirebaseDynamicLinkService {
 
     final DynamicLinkParameters dynamicLinkParams = DynamicLinkParameters(
       uriPrefix: "https://bodegalert.page.link",
-      link: Uri.parse("https://bodegalert.com/?view=$view&alias=$alias&shop=$shop"),
+      link: Uri.parse("https://bodegalert.com/?view=$view&alias=$alias&shop=$shop&date=$date"),
       androidParameters:
           const AndroidParameters(packageName: "io.cordova.alarmu"),
       iosParameters: const IOSParameters(bundleId: "io.cordova.alarmu"),
@@ -41,9 +41,10 @@ class FirebaseDynamicLinkService {
           final view = deepLink.queryParameters['view'];
           final alias = deepLink.queryParameters['alias'];
           final shop = deepLink.queryParameters['shop'];
+          final date = deepLink.queryParameters['date'];
 
           if(view == 'signup_step_one'){
-            Navigator.pushNamed(context, view!, arguments: {alias, shop});
+            Navigator.pushNamed(context, view!, arguments: {alias, shop, date});
           }
         }
 

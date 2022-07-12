@@ -16,6 +16,7 @@ class _QRCodeState extends State<QRCode> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final arguments = (ModalRoute.of(context)?.settings.arguments ?? <String, dynamic>{}) as Map;
+    print(arguments['link']);
 
     return Scaffold(
         appBar: AppBar(
@@ -41,6 +42,7 @@ class _QRCodeState extends State<QRCode> with SingleTickerProviderStateMixin {
                         fontSize: 24
                         )
                       ),
+
                       Text(TextConstants.descriptionScanQR,
                       textAlign: TextAlign.center,
                       style: const TextStyle(

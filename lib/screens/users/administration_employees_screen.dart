@@ -51,6 +51,7 @@ class BotonFlotante extends StatelessWidget {
 
     String alias = authService.userLogged.alias;
     String shop = authService.userLogged.shop;
+    String date = authService.userLogged.date;
 
     return SpeedDial(
       child: const Icon(Icons.account_circle, size: 55),
@@ -59,7 +60,7 @@ class BotonFlotante extends StatelessWidget {
           child: const Icon(Icons.qr_code),
           label: 'QR',
           onTap: () async {
-            String route = await FirebaseDynamicLinkService.CreateDynamicLink(alias, shop);
+            String route = await FirebaseDynamicLinkService.CreateDynamicLink(alias, shop, date);
             Navigator.pushNamed(context, 'qr_code', arguments:{'link' : route});
           },
         ),

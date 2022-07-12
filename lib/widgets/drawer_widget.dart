@@ -48,6 +48,7 @@ Widget _buildMenuItems(BuildContext context) {
 
   String alias = authService.userLogged.alias;
   String shop = authService.userLogged.shop;
+  String date = authService.userLogged.date;
   return Column(
     children: [
       // ListTile(
@@ -68,7 +69,7 @@ Widget _buildMenuItems(BuildContext context) {
         leading: const Icon(Icons.person_add),
         title: Text('Registrar Usuario'),
         onTap: () async{
-          String route = await FirebaseDynamicLinkService.CreateDynamicLink(alias, shop);
+          String route = await FirebaseDynamicLinkService.CreateDynamicLink(alias, shop, date);
           Navigator.pushNamed(context, 'qr_code', arguments:{'link' : route});
         },
       ),
