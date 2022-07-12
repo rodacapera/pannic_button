@@ -374,4 +374,19 @@ class AuthService extends ChangeNotifier {
     });
     return success;
     }
+
+  Future<bool> payment() async {
+    bool success = false;
+    await _firestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .update({
+        "pay": 'success'
+    })
+        .then((value) => {success = true})
+        .catchError((onError) {
+      success = false;
+    });
+    return success;
+  }
 }

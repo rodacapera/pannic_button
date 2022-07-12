@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:panic_button_app/widgets/widgets.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
+import '../services/stripe_payment_service.dart';
+
 class CheckOtpScreen extends StatelessWidget {
   const CheckOtpScreen({Key? key}) : super(key: key);
 
@@ -71,6 +73,7 @@ class _otpVerificationForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context, listen: false);
     final user = ModalRoute.of(context)!.settings.arguments;
+    final paymentService = Provider.of<PaymentService>(context, listen: false);
 
     return OtpTextField(
       numberOfFields: 6,
@@ -88,16 +91,59 @@ class _otpVerificationForm extends StatelessWidget {
         } else {
           await authService.verifyOtp(verificationCode, null);
         }
-        authService.isValidOTP
-            ? authService.isLogging
+
+        if(authService.userLogged.pay == 'success'){
+          authService.isValidOTP
+              ? authService.isLogging
+              ? Navigator.pushNamed(context, 'home')
+              : Navigator.pushNamed(context, 'signup_step_three')
+              : CoolAlert.show(
+              context: context,
+              type: CoolAlertType.error,
+              title: TextConstants.ops,
+              text: TextConstants.failValidateCode,
+              loopAnimation: false);
+        }else{
+          CoolAlert.show(
+            context: context,
+            type: CoolAlertType.error,
+            title: TextConstants.ops,
+            text:'Por favor realiza el pago',
+            loopAnimation: false,
+          );
+
+          String result = await paymentService.makePayment(
+              amount: "1", currency: "USD");
+
+          if (result == 'complete') {
+            CoolAlert.show(
+                context: context,
+                type: CoolAlertType.success,
+                title: "Exito",
+                loopAnimation: false);
+
+            authService.payment();
+
+            authService.isValidOTP
+                ? authService.isLogging
                 ? Navigator.pushNamed(context, 'home')
                 : Navigator.pushNamed(context, 'signup_step_three')
-            : CoolAlert.show(
+                : CoolAlert.show(
                 context: context,
                 type: CoolAlertType.error,
                 title: TextConstants.ops,
                 text: TextConstants.failValidateCode,
                 loopAnimation: false);
+          }else{
+            CoolAlert.show(
+              context: context,
+              type: CoolAlertType.error,
+              title: TextConstants.ops,
+              text: TextConstants.failPayment,
+              loopAnimation: false,
+            );
+          }
+        }
       }, // end onSubmit
     );
   }

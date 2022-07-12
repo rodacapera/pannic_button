@@ -219,7 +219,7 @@ class _SignUpStepTwoForm extends StatelessWidget {
                   onPressed: () async {
                     if (!signUpForm.isValidStepTwoForm()) return;
 
-                    signUpForm.pay = "pending";
+                    signUpForm.pay = "success";
 
                     if(signUpForm.shop == null || signUpForm.shop.toString() == ""){
 

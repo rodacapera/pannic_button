@@ -161,7 +161,8 @@ class _SignUpStepOneForm extends StatelessWidget {
                       if (signUpForm.shop != null) {
                         signUpForm.isLoading = false;
                         Navigator.pushNamed(context, 'signup_step_two');
-                      } else {
+                      }
+                      else {
                        String result = await paymentService.makePayment(
                           amount: "1", currency: "USD");
                         print(result);
