@@ -30,6 +30,7 @@ class User {
     required this.administrator,
     required this.shop,
     required this.pay,
+    required this.date
   });
 
   String? user_uid;
@@ -49,6 +50,7 @@ class User {
   bool administrator;
   String shop;
   String pay;
+  String date;
 
   User copyWith({
     String? user_uid,
@@ -67,7 +69,8 @@ class User {
     int? zipCode,
     required bool administrator,
     required String shop,
-    required String pay
+    required String pay,
+    required String date
   }) =>
       User(
         user_uid: user_uid ?? this.user_uid,
@@ -86,7 +89,8 @@ class User {
         zipCode: zipCode ?? this.zipCode,
         administrator: administrator,
         shop: shop,
-        pay: pay
+        pay: pay,
+        date: date
       );
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -109,7 +113,8 @@ class User {
         zipCode: json["zipcode"],
         administrator: json['administrator'],
         shop: json['shop'],
-        pay: json["pay"]
+        pay: json["pay"],
+        date: json["date"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -129,6 +134,7 @@ class User {
         "zipcode": zipCode,
         "administrator": administrator,
         "shop":  shop,
-        "pay": pay
+        "pay": pay,
+        "date" : date
       };
 }

@@ -238,6 +238,7 @@ class _SignUpStepTwoForm extends StatelessWidget {
                       signUpForm.administrator = false;
                     }
 
+
                     final user = User(
                         administrator: signUpForm.administrator,
                         phone: signUpForm.phone,
@@ -260,9 +261,11 @@ class _SignUpStepTwoForm extends StatelessWidget {
                         zipCode: int.tryParse(signUpForm.zipCode),
                         location: signUpForm.location,
                         shop: signUpForm.shop!.path,
-                        pay: signUpForm.pay
+                        pay: signUpForm.pay,
+                        date: (DateTime.now().year+1).toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString()
                     );
 
+                    print(user.date);
                     await authService.signUp(user);
                     Navigator.pushNamed(context, 'checkOtp', arguments: user);
                   })
