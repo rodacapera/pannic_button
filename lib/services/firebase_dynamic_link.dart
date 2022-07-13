@@ -14,7 +14,7 @@ class FirebaseDynamicLinkService {
 
     final DynamicLinkParameters dynamicLinkParams = DynamicLinkParameters(
       uriPrefix: "https://bodegalert.page.link",
-      link: Uri.parse("https://bodegalert.com/?view=$view&alias=$alias&shop=$shop&date=$date"),
+      link: Uri.parse("https://bodegalert.com/?view=$view&alias=$alias&date=$date&shop=$shop"),
       androidParameters:
           const AndroidParameters(packageName: "io.cordova.alarmu"),
       iosParameters: const IOSParameters(bundleId: "io.cordova.alarmu"),

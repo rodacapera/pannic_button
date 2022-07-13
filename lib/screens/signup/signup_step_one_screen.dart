@@ -30,9 +30,11 @@ class SignUpStepOneScreen extends StatelessWidget {
     final authService = Provider.of<AuthService>(context);
 
     if (data != null) {
+      print(data);
       var parts = data.toString().split(',');
       signUpForm.alias = parts[0].replaceAll("{", "");
-      var shopReference = parts[1].replaceAll("}", "");
+      var shopReference = parts[1];
+      signUpForm.date = parts[2].replaceAll("}", "");
       signUpForm.shop =
           FirebaseFirestore.instance.doc(shopReference.replaceAll(" ", ""));
     }

@@ -21,6 +21,7 @@ class SignUpFormProvider extends ChangeNotifier {
   String lastName = '';
   List<Device> devices = [];
   DocumentReference? shop;
+  String date = '';
   String pay = '';
 
   Map<String, dynamic> location = {};

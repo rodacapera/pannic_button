@@ -93,4 +93,6 @@ abstract class TextConstants {
   static String generatedCode = 'Código generado con éxito';
   static String descriptionScanQR = 'Por favor escanea el código para registrarte en nuestro establecimiento.';
   static String failPayment = 'El pago no ha sido procesado con éxito, por favor intenta de nuevo.';
+  static String nullPayment = 'No se ha realizado el pago, por favor comunicate con tu empresa.';
+
 }

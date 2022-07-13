@@ -238,6 +238,9 @@ class _SignUpStepTwoForm extends StatelessWidget {
                       signUpForm.administrator = false;
                     }
 
+                    if(signUpForm.date.isEmpty){
+                      signUpForm.date = (DateTime.now().year+1).toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString();
+                    }
 
                     final user = User(
                         administrator: signUpForm.administrator,
@@ -262,7 +265,7 @@ class _SignUpStepTwoForm extends StatelessWidget {
                         location: signUpForm.location,
                         shop: signUpForm.shop!.path,
                         pay: signUpForm.pay,
-                        date: (DateTime.now().year+1).toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString()
+                        date: signUpForm.date
                     );
 
                     print(user.date);
