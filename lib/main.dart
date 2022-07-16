@@ -35,7 +35,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   Stripe.publishableKey =
-      "pk_test_51LIEQIJSA4gqgXTSrnN4s491dRmz2GBUZ7JwHDOfZbVt3qmXFtnWYvuezYM3IoZ22jcqFZUZLgpf6xpK36hLphy700Ar36mAfL";
+      "pk_live_51LIEQIJSA4gqgXTSiw7PTUbs9HKmOc6hWU3LoBd4ZAPTObowRm7FF9ZPDEJ7ivhCN4RICIfNboNJw4FfShhqBW8m00p6sqe3eD";
   Stripe.merchantIdentifier = 'PannicButton';
   await Stripe.instance.applySettings();
   GPSPermissionGranted = _prefs.getBool("GPSPermisionGranted");
@@ -84,7 +84,7 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     AwesomeNotifications().isNotificationAllowed().then(
       (isAllowed) {
         if (!isAllowed) {
@@ -144,7 +144,7 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 

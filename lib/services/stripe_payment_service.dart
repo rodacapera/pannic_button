@@ -16,7 +16,7 @@ class PaymentService extends ChangeNotifier {
             paymentSheetParameters: SetupPaymentSheetParameters(
           applePay: true,
           googlePay: true,
-          testEnv: true,
+          testEnv: false,
           merchantCountryCode: 'US',
           merchantDisplayName: 'Prospects',
           customerId: paymentIntentData!['customer'] ?? 'customer',
@@ -64,7 +64,7 @@ class PaymentService extends ChangeNotifier {
           body: body,
           headers: {
             'Authorization':
-                'Bearer sk_test_51LIEQIJSA4gqgXTS2JJ0iYWC0zokJe5yD12RPlkXv8B64eosnin0yc0h8W9z1hsO2zeuk1PtDzthDa5u7iKOJF5P00hXI8ZKp5',
+                'Bearer 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',
             'Content-Type': 'application/x-www-form-urlencoded'
           });
       print("response ${response.body}");
