@@ -35,7 +35,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<UpdateNotificationMarkerEvent>(_onNotificationNewNotification);
 
     BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(), "assets/marker-icon.png")
+            const ImageConfiguration(), "assets/marker-icon.png")
         .then((onValue) {
       myIcon = onValue;
     });
