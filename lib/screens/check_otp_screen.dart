@@ -108,7 +108,7 @@ class _otpVerificationForm extends StatelessWidget {
             context: context,
             type: CoolAlertType.error,
             title: TextConstants.ops,
-            text:'Por favor realiza el pago',
+            text:'Por favor realiza el pago para renovar el servicio',
             loopAnimation: false,
           );
 
@@ -139,10 +139,19 @@ class _otpVerificationForm extends StatelessWidget {
               context: context,
               type: CoolAlertType.error,
               title: TextConstants.ops,
-              text: TextConstants.nullPayment,
+              text: TextConstants.failPayment,
               loopAnimation: false,
             );
           }
+        }
+        else{
+          CoolAlert.show(
+            context: context,
+            type: CoolAlertType.error,
+            title: TextConstants.ops,
+            text: TextConstants.nullPayment,
+            loopAnimation: false,
+          );
         }
       }, // end onSubmit
     );
