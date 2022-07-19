@@ -165,7 +165,7 @@ class _SignUpStepOneForm extends StatelessWidget {
                         Navigator.pushNamed(context, 'signup_step_two');
                       }
                       else {
-                         await authService
+                        await authService
                               .verifyIsRegistered(signUpForm.phone);
                         if (authService.isRegistered == true) {
                             CoolAlert.show(
@@ -177,15 +177,10 @@ class _SignUpStepOneForm extends StatelessWidget {
                             );
                             signUpForm.isLoading = false;
                             return;
-                          } else {
-                            String result = await paymentService.makePayment(
-                              amount: "1", currency: "USD");
-                            if (result == 'complete') {
-                          // await authService
-                          //     .verifyIsRegistered(signUpForm.phone);
-
-                          
-
+                        } else {
+                          String result = await paymentService.makePayment(
+                            amount: "1", currency: "USD");
+                          if (result == 'complete') {
                             try {
                               List<Placemark> address =
                                   await placemarkFromCoordinates(
@@ -213,7 +208,7 @@ class _SignUpStepOneForm extends StatelessWidget {
                                 );
                               }
                               signUpForm.isLoading = false;
-                            } else {
+                          } else {
                               signUpForm.isLoading = false;
                               CoolAlert.show(
                                 context: context,
@@ -222,8 +217,8 @@ class _SignUpStepOneForm extends StatelessWidget {
                                 text: TextConstants.failPayment,
                                 loopAnimation: false,
                               );
-                            }
                           }
+                        }
                       }
                     }
                   : null)
