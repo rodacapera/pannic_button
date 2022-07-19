@@ -165,14 +165,9 @@ class _SignUpStepOneForm extends StatelessWidget {
                         Navigator.pushNamed(context, 'signup_step_two');
                       }
                       else {
-                       String result = await paymentService.makePayment(
-                          amount: "1", currency: "USD");
-                        print(result);
-                        if (result == 'complete') {
-                          await authService
+                         await authService
                               .verifyIsRegistered(signUpForm.phone);
-
-                          if (authService.isRegistered == true) {
+                        if (authService.isRegistered == true) {
                             CoolAlert.show(
                               context: context,
                               type: CoolAlertType.error,
@@ -181,47 +176,54 @@ class _SignUpStepOneForm extends StatelessWidget {
                               loopAnimation: false,
                             );
                             signUpForm.isLoading = false;
-
                             return;
-                          }
+                          } else {
+                            String result = await paymentService.makePayment(
+                              amount: "1", currency: "USD");
+                            if (result == 'complete') {
+                          // await authService
+                          //     .verifyIsRegistered(signUpForm.phone);
 
-                          try {
-                            List<Placemark> address =
-                                await placemarkFromCoordinates(
-                                    signUpForm.location["lat"],
-                                    signUpForm.location["lng"]);
-                            signUpForm.countryCode =
-                                address.first.isoCountryCode!;
-                            signUpForm.zipCode = address.first.postalCode ?? '';
+                          
 
-                            /*final authService = Provider.of<AuthService>(context);*/
+                            try {
+                              List<Placemark> address =
+                                  await placemarkFromCoordinates(
+                                      signUpForm.location["lat"],
+                                      signUpForm.location["lng"]);
+                              signUpForm.countryCode =
+                                  address.first.isoCountryCode!;
+                              signUpForm.zipCode = address.first.postalCode ?? '';
 
-                            CoolAlert.show(
+                                /*final authService = Provider.of<AuthService>(context);*/
+
+                                CoolAlert.show(
+                                    context: context,
+                                    type: CoolAlertType.success,
+                                    title: "Exito",
+                                    loopAnimation: false);
+                                Navigator.pushNamed(context, 'signup_step_two');
+                              } catch (e) {
+                                CoolAlert.show(
+                                  context: context,
+                                  type: CoolAlertType.error,
+                                  title: TextConstants.ops,
+                                  text: e.toString(),
+                                  loopAnimation: false,
+                                );
+                              }
+                              signUpForm.isLoading = false;
+                            } else {
+                              signUpForm.isLoading = false;
+                              CoolAlert.show(
                                 context: context,
-                                type: CoolAlertType.success,
-                                title: "Exito",
-                                loopAnimation: false);
-                            Navigator.pushNamed(context, 'signup_step_two');
-                          } catch (e) {
-                            CoolAlert.show(
-                              context: context,
-                              type: CoolAlertType.error,
-                              title: TextConstants.ops,
-                              text: e.toString(),
-                              loopAnimation: false,
-                            );
+                                type: CoolAlertType.error,
+                                title: TextConstants.ops,
+                                text: TextConstants.failPayment,
+                                loopAnimation: false,
+                              );
+                            }
                           }
-                          signUpForm.isLoading = false;
-                        } else {
-                          signUpForm.isLoading = false;
-                          CoolAlert.show(
-                            context: context,
-                            type: CoolAlertType.error,
-                            title: TextConstants.ops,
-                            text: TextConstants.failPayment,
-                            loopAnimation: false,
-                          );
-                        }
                       }
                     }
                   : null)
