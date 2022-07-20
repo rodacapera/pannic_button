@@ -377,7 +377,7 @@ class AuthService extends ChangeNotifier {
     bool success = false;
     await _firestore
         .collection('users')
-        .where('shop', isEqualTo: shop).get().then((value) => {
+        .where('shop', isEqualTo: userLogged.shop).get().then((value) => {
           value.docs.forEach((element) {
             _firestore.collection('users').doc(element.id).update({
               "date": (DateTime.now().year+1).toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString()
