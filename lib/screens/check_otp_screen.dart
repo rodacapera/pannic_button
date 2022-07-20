@@ -92,8 +92,6 @@ class _otpVerificationForm extends StatelessWidget {
           await authService.verifyOtp(verificationCode, null);
         }
 
-        print(authService.userLogged);
-
          if(authService.userLogged.date.compareTo(DateTime.now().year.toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString()) >= 0){
           authService.isValidOTP
               ? authService.isLogging
