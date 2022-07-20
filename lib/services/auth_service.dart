@@ -381,7 +381,8 @@ class AuthService extends ChangeNotifier {
         .collection('users')
         .doc(_auth.currentUser!.uid)
         .update({
-        "pay": 'success'
+        "pay": 'success',
+        "date": (DateTime.now().year+1).toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString()
     })
         .then((value) => {success = true})
         .catchError((onError) {

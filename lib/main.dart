@@ -113,7 +113,6 @@ class _AppStateState extends State<AppState> with WidgetsBindingObserver {
         }
       },
     );
-
     AwesomeNotifications()
         .actionStream
         .listen((ReceivedNotification receivedNotification) {

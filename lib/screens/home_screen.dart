@@ -44,6 +44,12 @@ class _HomeScreenState extends State<HomeScreen> {
     final panicService = Provider.of<PanicService>(context);
     final authService = Provider.of<AuthService>(context);
 
+    if(authService.userLogged.runtimeType != bool){
+      if(authService.userLogged.date.compareTo(DateTime.now().year.toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString()) < 0){
+        Navigator.pushNamed(context, 'login');
+      }
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: Center(child: Text(TextConstants.nameApp)),

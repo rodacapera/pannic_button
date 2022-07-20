@@ -103,7 +103,8 @@ class _otpVerificationForm extends StatelessWidget {
               title: TextConstants.ops,
               text: TextConstants.failValidateCode,
               loopAnimation: false);
-        }else if(authService.userLogged.administrator){
+        }
+        else if(authService.userLogged.administrator){
           CoolAlert.show(
             context: context,
             type: CoolAlertType.error,
