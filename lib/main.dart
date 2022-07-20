@@ -186,6 +186,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
 
+    authService.getPrice();
+
     if (userLogged != null && userLogged.runtimeType != bool) {
       authService.userLoggedUnNotified = User.fromJson(json.decode(userLogged));
     }

@@ -114,7 +114,7 @@ class _otpVerificationForm extends StatelessWidget {
           );
 
           String result = await paymentService.makePayment(
-              amount: "1", currency: "USD");
+              amount:  authService.price.toString(), currency: "USD");
 
           if (result == 'complete') {
             CoolAlert.show(

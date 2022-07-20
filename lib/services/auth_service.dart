@@ -23,6 +23,13 @@ class AuthService extends ChangeNotifier {
   bool _isReady = false;
   bool _isValidatingOTP = false;
   bool _isLogging = false;
+  int _price = 0;
+
+  int get price => _price;
+
+  set price(int value) {
+    _price = value;
+  }
 
   bool get isLogging => _isLogging;
   String _imagePath = '';
@@ -388,5 +395,13 @@ class AuthService extends ChangeNotifier {
       success = false;
     });
     return success;
+  }
+
+  Future<void> getPrice() async {
+
+    await _firestore.collection('configuration').doc('hYBVmWPclR4wwns2Qnh9').get().then((value) =>
+    {
+      _price = value.data()?.values.first
+    });
   }
 }
