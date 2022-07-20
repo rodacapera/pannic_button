@@ -195,7 +195,7 @@ class MyApp extends StatelessWidget {
       title: TextConstants.nameApp,
       initialRoute: GPSPermissionGranted != true
           ? 'gps_permission'
-          : (userLogged != null && userLogged.runtimeType != bool)
+          : (userLogged != null && userLogged.runtimeType != bool && authService.userLogged.date.compareTo(DateTime.now().year.toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString()) >= 0)
               ? 'home'
               : 'login',
       routes: {
