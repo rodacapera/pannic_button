@@ -147,6 +147,7 @@ class AuthService extends ChangeNotifier {
                             .doc(_auth.currentUser!.uid)
                             .get()
                             .then((value) async => {
+                                  print(value.data()),
                                   userLogged = pb.User.fromJson(value.data()!),
                                   await selectEmployees(userLogged.shop),
                                   await _prefs.setString("userLogged",
@@ -195,7 +196,7 @@ class AuthService extends ChangeNotifier {
       isValidOTP = true;
     } catch (e) {
       isValidOTP = false;
-      print(e);
+      print('error -> $e');
     }
   }
 
@@ -334,9 +335,9 @@ class AuthService extends ChangeNotifier {
         .where('alias', isEqualTo: shop.alias)
         .get();
 
-    docRef.docs.forEach((element) {
+    for (var element in docRef.docs) {
       idShop = "shops/" + element.id;
-    });
+    }
 
     print(idShop);
     return FirebaseFirestore.instance.doc(idShop);
@@ -347,14 +348,13 @@ class AuthService extends ChangeNotifier {
     var employees = await _firestore
         .collection('users')
         .where('shop', isEqualTo: shop)
-        .where('pay', isEqualTo: "success")
         .get();
-        employees.docs.forEach((element) {
+        for (var element in employees.docs) {
         pb.User nuevo = pb.User.fromJson(element.data());
         if(!nuevo.administrator) {
           _employees.add(nuevo);
         }
-      });
+      }
     }
 
   Future deleteEmploye(pb.User user) async {
@@ -362,9 +362,7 @@ class AuthService extends ChangeNotifier {
     await _firestore
         .collection('users')
         .doc(user.user_uid)
-        .update({
-        "pay": "pending",
-      })
+        .delete()
         .then((value) => {
           success = true,
           _employees.remove(user)
@@ -379,12 +377,13 @@ class AuthService extends ChangeNotifier {
     bool success = false;
     await _firestore
         .collection('users')
-        .doc(_auth.currentUser!.uid)
-        .update({
-        "pay": 'success',
-        "date": (DateTime.now().year+1).toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString()
-    })
-        .then((value) => {success = true})
+        .where('shop', isEqualTo: shop).get().then((value) => {
+          value.docs.forEach((element) {
+            _firestore.collection('users').doc(element.id).update({
+              "date": (DateTime.now().year+1).toString() + '-' + DateTime.now().month.toString() + '-' + DateTime.now().day.toString()
+            });
+          }),
+          success = true})
         .catchError((onError) {
       success = false;
     });

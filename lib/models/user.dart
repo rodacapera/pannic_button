@@ -29,7 +29,6 @@ class User {
     this.zipCode, 
     required this.administrator,
     required this.shop,
-    required this.pay,
     required this.date
   });
 
@@ -49,7 +48,6 @@ class User {
   int? zipCode;
   bool administrator;
   String shop;
-  String pay;
   String date;
 
   User copyWith({
@@ -69,7 +67,6 @@ class User {
     int? zipCode,
     required bool administrator,
     required String shop,
-    required String pay,
     required String date
   }) =>
       User(
@@ -89,7 +86,6 @@ class User {
         zipCode: zipCode ?? this.zipCode,
         administrator: administrator,
         shop: shop,
-        pay: pay,
         date: date
       );
 
@@ -113,7 +109,6 @@ class User {
         zipCode: json["zipcode"],
         administrator: json['administrator'],
         shop: json['shop'],
-        pay: json["pay"],
         date: json["date"]
       );
 
@@ -134,7 +129,6 @@ class User {
         "zipcode": zipCode,
         "administrator": administrator,
         "shop":  shop,
-        "pay": pay,
         "date" : date
       };
 }

@@ -219,7 +219,7 @@ class _SignUpStepTwoForm extends StatelessWidget {
                   onPressed: () async {
                     if (!signUpForm.isValidStepTwoForm()) return;
 
-                    signUpForm.pay = "success";
+
 
                     if(signUpForm.shop == null || signUpForm.shop.toString() == ""){
 
@@ -264,7 +264,6 @@ class _SignUpStepTwoForm extends StatelessWidget {
                         zipCode: int.tryParse(signUpForm.zipCode),
                         location: signUpForm.location,
                         shop: signUpForm.shop!.path,
-                        pay: signUpForm.pay,
                         date: signUpForm.date
                     );
 
