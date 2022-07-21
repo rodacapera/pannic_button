@@ -179,7 +179,7 @@ class _SignUpStepOneForm extends StatelessWidget {
                             return;
                         } else {
                           String result = await paymentService.makePayment(
-                            amount: "1", currency: "USD");
+                            amount: authService.price.toString(), currency: "USD");
                           if (result == 'complete') {
                             try {
                               List<Placemark> address =
